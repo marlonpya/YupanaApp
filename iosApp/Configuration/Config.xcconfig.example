@@ -1,0 +1,9 @@
+// Plantilla de configuración Xcode para Yupana iOS.
+// Copiar a `Config.xcconfig` (gitignored) y rellenar. NO versionar el archivo con secretos.
+TEAM_ID=
+BUNDLE_ID=com.strawtechberry.yupana
+APP_NAME=Yupana
+
+// Secrets Supabase (se leerán en fase posterior vía Info.plist / xcconfig).
+SUPABASE_URL=https://placeholder.supabase.co
+SUPABASE_PUBLISHABLE_KEY=sb_publishable_placeholder
