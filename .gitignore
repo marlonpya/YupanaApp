@@ -9,7 +9,26 @@
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
+build/
 /captures
 .externalNativeBuild
 .cxx
 local.properties
+
+# Secrets — nunca versionar
+secrets.properties
+bd-password.txt
+google-services.json
+GoogleService-Info.plist
+*.jks
+*.keystore
+*.xcconfig
+
+# iOS / Xcode
+xcuserdata/
+*.xcuserstate
+ios/Pods/
+iosApp/Pods/
+
+# Kotlin/Native
+*.klib
