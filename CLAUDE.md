@@ -176,7 +176,16 @@ Esquinas redondeadas generosas (tarjetas ~18px). Tipografía Roboto/Roboto Flex.
 - **Tests:** preservar el estilo de la base (Given/When/Then, inyección por constructor,
   fakes en vez de MockK para `commonTest`).
 - **Secrets fuera del repo** desde el primer commit.
-- Comentarios y nombres de dominio en español; código idiomático Kotlin.
+- **Idioma del código:** identificadores (clases, funciones, propiedades, nombres de
+  archivo) y comentarios/KDoc en **inglés**. Los **strings de cara al usuario** (mensajes
+  de error, textos de validación, copy de pantalla) van en **español** — Yupana es un
+  producto para revendedores hispanohablantes en Perú; es una decisión de producto, no
+  de estilo de código.
+- **No cambiar versiones** en `libs.versions.toml`/`build.gradle.kts` sin aprobación
+  explícita — una versión desalineada rompe el build KMP (ver punto de verificar
+  versiones más arriba).
+- **Commit messages:** Conventional Commits (`feat:`, `fix:`, `refactor:`, `test:`,
+  `docs:`, `chore:`), con scope entre paréntesis cuando aplique (`feat(auth): ...`).
 - **Compilar/verificar en WSL:** ver `docs/DESARROLLO.md` (setup de JDK/SDK Linux propio,
   comandos de verificación, límite de `git push` en WSL).
 
@@ -206,3 +215,40 @@ Esquinas redondeadas generosas (tarjetas ~18px). Tipografía Roboto/Roboto Flex.
 - **Recomendado (manual, vía GitHub Settings → Branches):** activar *branch protection*
   en `master` para exigir PR antes de mergear y bloquear push directo, reforzando la
   regla a nivel de plataforma y no solo por disciplina.
+
+## 8. Convenciones de código (Compose Multiplatform / KMP)
+
+- **Compose:**
+  - `@Preview` obligatorio en composables **nuevos** de pantalla o componente reutilizable
+    (import CMP: `org.jetbrains.compose.ui.tooling.preview.Preview`). Deuda conocida: las
+    pantallas de auth (Login/Register/Splash) no lo tienen todavía; no se retrofittea
+    como parte de esta regla, solo aplica hacia adelante.
+  - Composables **stateless**: reciben estado y lambdas por parámetro, sin lógica de
+    negocio dentro del composable.
+  - `Modifier` como primer parámetro opcional (`modifier: Modifier = Modifier`),
+    propagado al elemento raíz. Ya se cumple en `:core:designsystem`; las pantallas de
+    auth aún no lo reciben (deuda conocida, no se toca ahora).
+  - Naming para pantallas nuevas: `XxxScreen` (con Scaffold/TopBar si aplica) y `XxxContent`
+    (cuerpo sin Scaffold, más fácil de previsualizar/testear) cuando la pantalla lo
+    amerite. Componentes reutilizables en `component/`.
+- **Strings/colores/dimensiones:** sin valores hardcodeados en código **nuevo**.
+  - Strings vía Compose Resources (ya configurado en `:core:designsystem`:
+    `compose.components.resources` + `src/commonMain/composeResources/values/strings.xml`).
+    Deuda conocida: los strings de Login/Register/Splash siguen hardcodeados; no se migran
+    como parte de esta regla.
+  - Colores/dimensiones vía `YupanaTheme.colors`/`YupanaTheme.spacing` (patrón ya seguido
+    en `:core:designsystem`). Deuda conocida: algunos magic numbers ya existentes
+    (`YupanaTextField`, `YupanaButton`, `AuthScreenContainer`).
+- **Arquitectura KMP:** límites `commonMain`/`androidMain`/`iosMain` estrictos; `expect/actual`
+  solo para lo específico de plataforma. Koin con un módulo por feature (patrón ya seguido,
+  ver `feature/auth/di/AuthModule.kt`). El dominio (UseCase/Repository) no fija un
+  `Dispatcher`; es responsabilidad de quien lo consume (ViewModel).
+- **Estado/errores:** patrón sealed `UiState`/`UiIntent`/`UiEvent` de `:core:mvi` +
+  `Result<T>` para operaciones falibles (patrón ya seguido en `feature/auth`).
+- **Documentación:** KDoc corto en `UseCase`/`Repository` públicos cuando la lógica no sea
+  autoexplicativa.
+- **Checklist antes de dar por terminada una tarea de UI/feature:**
+  - [ ] `@Preview` agregado si el composable es nuevo
+  - [ ] Sin strings/colores/dimensiones hardcodeados en el código nuevo
+  - [ ] Sin secrets ni valores de configuración hardcodeados
+  - [ ] `./gradlew compileCommonMainKotlinMetadata` compila limpio
