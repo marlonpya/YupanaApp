@@ -3,7 +3,9 @@ package com.strawtechberry.yupana.feature.assignment.data
 import com.strawtechberry.yupana.feature.assignment.domain.AssignmentRepository
 import com.strawtechberry.yupana.feature.assignment.domain.model.Assignment
 import com.strawtechberry.yupana.feature.assignment.domain.model.AssignmentException
+import com.strawtechberry.yupana.feature.assignment.domain.model.UpcomingExpiration
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.CancellationException
 
 /**
@@ -31,6 +33,46 @@ class DefaultAssignmentRepository(private val postgrest: Postgrest) : Assignment
                 ) { select() }
                 .decodeSingle<AssignmentDto>()
                 .toDomain()
+        }
+
+    override suspend fun getUpcomingExpirations(): Result<List<UpcomingExpiration>> =
+        execute {
+            postgrest.from("upcoming_expirations")
+                .select { order("days_left", Order.ASCENDING) }
+                .decodeList<UpcomingExpirationDto>()
+                .map { it.toDomain() }
+        }
+
+    override suspend fun getUpcomingExpiration(assignmentId: String): Result<UpcomingExpiration> =
+        execute {
+            postgrest.from("upcoming_expirations")
+                .select { filter { eq("assignment_id", assignmentId) } }
+                .decodeSingle<UpcomingExpirationDto>()
+                .toDomain()
+        }
+
+    override suspend fun renewAssignment(assignmentId: String, currentDueDate: String): Result<Unit> =
+        execute {
+            postgrest.from("assignment").update(
+                AssignmentRenewDto(dueDate = addOneMonthIso(currentDueDate), reminderSent = false),
+            ) { filter { eq("id", assignmentId) } }
+            Unit
+        }
+
+    override suspend fun updateAssignment(assignmentId: String, priceCharged: Double, dueDate: String): Result<Unit> =
+        execute {
+            postgrest.from("assignment").update(
+                AssignmentEditDto(priceCharged = priceCharged, dueDate = dueDate),
+            ) { filter { eq("id", assignmentId) } }
+            Unit
+        }
+
+    override suspend fun liberateAssignment(assignmentId: String): Result<Unit> =
+        execute {
+            postgrest.from("assignment").update(
+                AssignmentStatusDto(status = "cancelled"),
+            ) { filter { eq("id", assignmentId) } }
+            Unit
         }
 
     private suspend fun <T> execute(block: suspend () -> T): Result<T> = try {
