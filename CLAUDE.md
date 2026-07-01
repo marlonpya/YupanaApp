@@ -177,3 +177,5 @@ Esquinas redondeadas generosas (tarjetas ~18px). Tipografía Roboto/Roboto Flex.
   fakes en vez de MockK para `commonTest`).
 - **Secrets fuera del repo** desde el primer commit.
 - Comentarios y nombres de dominio en español; código idiomático Kotlin.
+- **Compilar/verificar en WSL:** ver `docs/DESARROLLO.md` (setup de JDK/SDK Linux propio,
+  comandos de verificación, límite de `git push` en WSL).
