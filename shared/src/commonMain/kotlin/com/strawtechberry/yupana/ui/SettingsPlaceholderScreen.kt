@@ -12,12 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.strawtechberry.yupana.core.designsystem.component.YupanaBrandLogo
+import com.strawtechberry.yupana.core.designsystem.component.YupanaButton
+import com.strawtechberry.yupana.core.designsystem.component.YupanaButtonVariant
 import com.strawtechberry.yupana.core.designsystem.theme.YupanaTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /** Placeholder de "Ajustes" (grupo posterior lo reemplaza). */
 @Composable
-fun SettingsPlaceholderScreen() {
+fun SettingsPlaceholderScreen(onOpenServiceCatalog: () -> Unit) {
     val colors = YupanaTheme.colors
     val spacing = YupanaTheme.spacing
     Box(
@@ -41,6 +43,11 @@ fun SettingsPlaceholderScreen() {
                 color = colors.textoSecundario,
                 textAlign = TextAlign.Center,
             )
+            YupanaButton(
+                text = "Catálogo de servicios",
+                variant = YupanaButtonVariant.Secondary,
+                onClick = onOpenServiceCatalog,
+            )
         }
     }
 }
@@ -48,5 +55,5 @@ fun SettingsPlaceholderScreen() {
 @Preview
 @Composable
 private fun SettingsPlaceholderScreenPreview() {
-    SettingsPlaceholderScreen()
+    SettingsPlaceholderScreen(onOpenServiceCatalog = {})
 }

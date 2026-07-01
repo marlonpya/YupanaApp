@@ -36,6 +36,7 @@ kotlin {
             implementation(projects.core.supabase)
             implementation(projects.feature.auth)
             implementation(projects.feature.clients)
+            implementation(projects.feature.accounts)
 
             implementation(libs.jetbrains.navigation.compose)
             implementation(project.dependencies.platform(libs.koin.bom))

@@ -9,4 +9,19 @@ object YupanaDestinations {
     const val CLIENT_FORM_ARG_ID = "clientId"
     const val CLIENT_FORM_ROUTE = "client_form"
     const val CLIENT_FORM = "$CLIENT_FORM_ROUTE?$CLIENT_FORM_ARG_ID={$CLIENT_FORM_ARG_ID}"
+
+    const val ACCOUNT_DETAIL_ARG_ID = "accountId"
+    const val ACCOUNT_DETAIL_ROUTE = "account_detail"
+    const val ACCOUNT_DETAIL = "$ACCOUNT_DETAIL_ROUTE/{$ACCOUNT_DETAIL_ARG_ID}"
+
+    const val ACCOUNT_FORM_ARG_ID = "accountId"
+    const val ACCOUNT_FORM_ROUTE = "account_form"
+    const val ACCOUNT_FORM = "$ACCOUNT_FORM_ROUTE?$ACCOUNT_FORM_ARG_ID={$ACCOUNT_FORM_ARG_ID}"
+
+    const val SERVICE_CATALOG_ARG_PICKER = "picker"
+    const val SERVICE_CATALOG_ROUTE = "service_catalog"
+    const val SERVICE_CATALOG = "$SERVICE_CATALOG_ROUTE?$SERVICE_CATALOG_ARG_PICKER={$SERVICE_CATALOG_ARG_PICKER}"
+
+    /** SavedStateHandle key used to pass the picked service id back to the account form. */
+    const val SELECTED_SERVICE_ID_KEY = "selected_service_id"
 }
