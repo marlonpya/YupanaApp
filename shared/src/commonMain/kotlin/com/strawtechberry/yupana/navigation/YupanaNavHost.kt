@@ -17,51 +17,51 @@ import com.strawtechberry.yupana.ui.DashboardPlaceholderRoute
 fun YupanaNavHost() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = YupanaDestinos.SPLASH) {
+    NavHost(navController = navController, startDestination = YupanaDestinations.SPLASH) {
 
-        composable(YupanaDestinos.SPLASH) {
+        composable(YupanaDestinations.SPLASH) {
             SplashRoute(
-                onSesionActiva = {
-                    navController.navigate(YupanaDestinos.DASHBOARD) {
-                        popUpTo(YupanaDestinos.SPLASH) { inclusive = true }
+                onSessionActive = {
+                    navController.navigate(YupanaDestinations.DASHBOARD) {
+                        popUpTo(YupanaDestinations.SPLASH) { inclusive = true }
                     }
                 },
-                onSinSesion = {
-                    navController.navigate(YupanaDestinos.LOGIN) {
-                        popUpTo(YupanaDestinos.SPLASH) { inclusive = true }
+                onNoSession = {
+                    navController.navigate(YupanaDestinations.LOGIN) {
+                        popUpTo(YupanaDestinations.SPLASH) { inclusive = true }
                     }
                 },
             )
         }
 
-        composable(YupanaDestinos.LOGIN) {
+        composable(YupanaDestinations.LOGIN) {
             LoginRoute(
-                onLoginExitoso = {
-                    navController.navigate(YupanaDestinos.DASHBOARD) {
-                        popUpTo(YupanaDestinos.LOGIN) { inclusive = true }
+                onLoginSuccess = {
+                    navController.navigate(YupanaDestinations.DASHBOARD) {
+                        popUpTo(YupanaDestinations.LOGIN) { inclusive = true }
                     }
                 },
-                onIrARegistro = { navController.navigate(YupanaDestinos.REGISTER) },
-                onOlvidePassword = { /* Placeholder: la pantalla real llega en una fase posterior. */ },
+                onNavigateToRegister = { navController.navigate(YupanaDestinations.REGISTER) },
+                onForgotPassword = { /* Placeholder: la pantalla real llega en una fase posterior. */ },
             )
         }
 
-        composable(YupanaDestinos.REGISTER) {
+        composable(YupanaDestinations.REGISTER) {
             RegisterRoute(
-                onRegistroExitoso = {
-                    navController.navigate(YupanaDestinos.DASHBOARD) {
-                        popUpTo(YupanaDestinos.LOGIN) { inclusive = true }
+                onRegisterSuccess = {
+                    navController.navigate(YupanaDestinations.DASHBOARD) {
+                        popUpTo(YupanaDestinations.LOGIN) { inclusive = true }
                     }
                 },
-                onIrALogin = { navController.popBackStack() },
+                onNavigateToLogin = { navController.popBackStack() },
             )
         }
 
-        composable(YupanaDestinos.DASHBOARD) {
+        composable(YupanaDestinations.DASHBOARD) {
             DashboardPlaceholderRoute(
                 onCerrarSesion = {
-                    navController.navigate(YupanaDestinos.LOGIN) {
-                        popUpTo(YupanaDestinos.DASHBOARD) { inclusive = true }
+                    navController.navigate(YupanaDestinations.LOGIN) {
+                        popUpTo(YupanaDestinations.DASHBOARD) { inclusive = true }
                     }
                 },
             )

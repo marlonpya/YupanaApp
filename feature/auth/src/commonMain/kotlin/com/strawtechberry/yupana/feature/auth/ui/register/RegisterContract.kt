@@ -4,7 +4,7 @@ import com.strawtechberry.yupana.core.mvi.UiEvent
 import com.strawtechberry.yupana.core.mvi.UiIntent
 import com.strawtechberry.yupana.core.mvi.UiState
 
-/** Estado de la pantalla de Registro. */
+/** Register screen state. */
 data class RegisterUiState(
     val email: String = "",
     val password: String = "",
@@ -13,22 +13,22 @@ data class RegisterUiState(
     val passwordError: String? = null,
     val confirmError: String? = null,
     val formError: String? = null,
-    /** Aviso cuando el registro requiere confirmar el correo (sin sesión inmediata). */
-    val avisoConfirmacion: String? = null,
-    val cargando: Boolean = false,
+    /** Notice shown when registration requires confirming the email (no immediate session). */
+    val confirmationNotice: String? = null,
+    val isLoading: Boolean = false,
 ) : UiState
 
-/** Acciones del usuario en Registro. */
+/** User actions on Register. */
 sealed interface RegisterIntent : UiIntent {
-    data class EmailCambiado(val valor: String) : RegisterIntent
-    data class PasswordCambiado(val valor: String) : RegisterIntent
-    data class ConfirmCambiado(val valor: String) : RegisterIntent
-    data object Enviar : RegisterIntent
-    data object IrALogin : RegisterIntent
+    data class EmailChanged(val value: String) : RegisterIntent
+    data class PasswordChanged(val value: String) : RegisterIntent
+    data class ConfirmPasswordChanged(val value: String) : RegisterIntent
+    data object Submit : RegisterIntent
+    data object NavigateToLogin : RegisterIntent
 }
 
-/** Efectos de una sola vez de Registro. */
+/** One-time effects of Register. */
 sealed interface RegisterEvent : UiEvent {
-    data object NavegarADashboard : RegisterEvent
-    data object NavegarALogin : RegisterEvent
+    data object NavigateToDashboard : RegisterEvent
+    data object NavigateToLogin : RegisterEvent
 }

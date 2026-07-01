@@ -7,24 +7,25 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 
 /**
- * Route de Login: conecta el [LoginViewModel] (Koin) con la UI y traduce los eventos MVI en
- * navegación. El NavController vive solo aquí (vía callbacks), no en el ViewModel ni el Screen.
+ * Login route: connects the [LoginViewModel] (Koin) with the UI and translates MVI events
+ * into navigation. The NavController only lives here (via callbacks), not in the ViewModel
+ * or the Screen.
  */
 @Composable
 fun LoginRoute(
-    onLoginExitoso: () -> Unit,
-    onIrARegistro: () -> Unit,
-    onOlvidePassword: () -> Unit,
+    onLoginSuccess: () -> Unit,
+    onNavigateToRegister: () -> Unit,
+    onForgotPassword: () -> Unit,
     viewModel: LoginViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.events.collect { evento ->
-            when (evento) {
-                LoginEvent.NavegarADashboard -> onLoginExitoso()
-                LoginEvent.NavegarARegistro -> onIrARegistro()
-                LoginEvent.NavegarAOlvidePassword -> onOlvidePassword()
+        viewModel.events.collect { event ->
+            when (event) {
+                LoginEvent.NavigateToDashboard -> onLoginSuccess()
+                LoginEvent.NavigateToRegister -> onNavigateToRegister()
+                LoginEvent.NavigateToForgotPassword -> onForgotPassword()
             }
         }
     }

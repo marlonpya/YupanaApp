@@ -2,25 +2,25 @@ package com.strawtechberry.yupana.feature.auth.ui.splash
 
 import androidx.lifecycle.viewModelScope
 import com.strawtechberry.yupana.core.mvi.MviViewModel
-import com.strawtechberry.yupana.feature.auth.domain.model.EstadoSesion
-import com.strawtechberry.yupana.feature.auth.domain.usecase.ObservarEstadoSesionUseCase
+import com.strawtechberry.yupana.feature.auth.domain.model.SessionState
+import com.strawtechberry.yupana.feature.auth.domain.usecase.ObserveSessionStateUseCase
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
- * Decide el destino inicial: espera a que el SDK termine de restaurar la sesión
- * ([EstadoSesion.Inicializando]) y luego navega al Dashboard o al Login.
+ * Decides the initial destination: waits for the SDK to finish restoring the session
+ * ([SessionState.Initializing]) and then navigates to Dashboard or Login.
  */
 class SplashViewModel(
-    private val observarEstadoSesion: ObservarEstadoSesionUseCase,
+    private val observeSessionState: ObserveSessionStateUseCase,
 ) : MviViewModel<SplashUiState, SplashIntent, SplashEvent>(SplashUiState) {
 
     init {
         viewModelScope.launch {
-            val estado = observarEstadoSesion().first { it != EstadoSesion.Inicializando }
-            when (estado) {
-                EstadoSesion.Autenticada -> sendEvent(SplashEvent.NavegarADashboard)
-                else -> sendEvent(SplashEvent.NavegarALogin)
+            val state = observeSessionState().first { it != SessionState.Initializing }
+            when (state) {
+                SessionState.Authenticated -> sendEvent(SplashEvent.NavigateToDashboard)
+                else -> sendEvent(SplashEvent.NavigateToLogin)
             }
         }
     }

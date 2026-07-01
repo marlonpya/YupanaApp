@@ -2,10 +2,10 @@ package com.strawtechberry.yupana.feature.auth.di
 
 import com.strawtechberry.yupana.feature.auth.data.DefaultAuthRepository
 import com.strawtechberry.yupana.feature.auth.domain.AuthRepository
-import com.strawtechberry.yupana.feature.auth.domain.usecase.CerrarSesionUseCase
-import com.strawtechberry.yupana.feature.auth.domain.usecase.IniciarSesionUseCase
-import com.strawtechberry.yupana.feature.auth.domain.usecase.ObservarEstadoSesionUseCase
-import com.strawtechberry.yupana.feature.auth.domain.usecase.RegistrarUseCase
+import com.strawtechberry.yupana.feature.auth.domain.usecase.ObserveSessionStateUseCase
+import com.strawtechberry.yupana.feature.auth.domain.usecase.RegisterUseCase
+import com.strawtechberry.yupana.feature.auth.domain.usecase.SignInUseCase
+import com.strawtechberry.yupana.feature.auth.domain.usecase.SignOutUseCase
 import com.strawtechberry.yupana.feature.auth.ui.login.LoginViewModel
 import com.strawtechberry.yupana.feature.auth.ui.register.RegisterViewModel
 import com.strawtechberry.yupana.feature.auth.ui.splash.SplashViewModel
@@ -14,16 +14,16 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 /**
- * Módulo Koin de auth. El `Auth` de supabase lo aporta `supabaseModule` (:core:supabase),
- * así que este módulo debe cargarse junto a aquel.
+ * Auth Koin module. supabase's `Auth` is provided by `supabaseModule` (:core:supabase),
+ * so this module must be loaded alongside it.
  */
 val authModule = module {
     single<AuthRepository> { DefaultAuthRepository(get()) }
 
-    factoryOf(::IniciarSesionUseCase)
-    factoryOf(::RegistrarUseCase)
-    factoryOf(::ObservarEstadoSesionUseCase)
-    factoryOf(::CerrarSesionUseCase)
+    factoryOf(::SignInUseCase)
+    factoryOf(::RegisterUseCase)
+    factoryOf(::ObserveSessionStateUseCase)
+    factoryOf(::SignOutUseCase)
 
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)

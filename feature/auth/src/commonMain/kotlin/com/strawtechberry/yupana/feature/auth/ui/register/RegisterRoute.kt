@@ -6,20 +6,20 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 
-/** Route de Registro: conecta el [RegisterViewModel] con la UI y mapea eventos a navegación. */
+/** Register route: connects the [RegisterViewModel] with the UI and maps events to navigation. */
 @Composable
 fun RegisterRoute(
-    onRegistroExitoso: () -> Unit,
-    onIrALogin: () -> Unit,
+    onRegisterSuccess: () -> Unit,
+    onNavigateToLogin: () -> Unit,
     viewModel: RegisterViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
-        viewModel.events.collect { evento ->
-            when (evento) {
-                RegisterEvent.NavegarADashboard -> onRegistroExitoso()
-                RegisterEvent.NavegarALogin -> onIrALogin()
+        viewModel.events.collect { event ->
+            when (event) {
+                RegisterEvent.NavigateToDashboard -> onRegisterSuccess()
+                RegisterEvent.NavigateToLogin -> onNavigateToLogin()
             }
         }
     }

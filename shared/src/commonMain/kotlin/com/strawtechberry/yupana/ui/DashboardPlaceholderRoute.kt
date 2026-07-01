@@ -2,7 +2,7 @@ package com.strawtechberry.yupana.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.strawtechberry.yupana.feature.auth.domain.usecase.CerrarSesionUseCase
+import com.strawtechberry.yupana.feature.auth.domain.usecase.SignOutUseCase
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
@@ -10,7 +10,7 @@ import org.koin.compose.koinInject
 @Composable
 fun DashboardPlaceholderRoute(
     onCerrarSesion: () -> Unit,
-    cerrarSesion: CerrarSesionUseCase = koinInject(),
+    cerrarSesion: SignOutUseCase = koinInject(),
 ) {
     val scope = rememberCoroutineScope()
     DashboardPlaceholderScreen(
