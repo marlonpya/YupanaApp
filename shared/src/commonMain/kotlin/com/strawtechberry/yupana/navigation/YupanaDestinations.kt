@@ -24,4 +24,10 @@ object YupanaDestinations {
 
     /** SavedStateHandle key used to pass the picked service id back to the account form. */
     const val SELECTED_SERVICE_ID_KEY = "selected_service_id"
+
+    const val ASSIGN_ACCOUNT_ARG_ID = "accountId"
+    const val ASSIGN_PROFILE_ARG_ID = "profileId"
+    const val ASSIGN_PROFILE_ROUTE = "assign_profile"
+    const val ASSIGN_PROFILE =
+        "$ASSIGN_PROFILE_ROUTE?$ASSIGN_ACCOUNT_ARG_ID={$ASSIGN_ACCOUNT_ARG_ID}&$ASSIGN_PROFILE_ARG_ID={$ASSIGN_PROFILE_ARG_ID}"
 }

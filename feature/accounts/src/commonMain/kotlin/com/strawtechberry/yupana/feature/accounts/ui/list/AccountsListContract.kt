@@ -20,6 +20,7 @@ sealed interface AccountsListIntent : UiIntent {
     data object Retry : AccountsListIntent
     data object CreateClicked : AccountsListIntent
     data object CatalogClicked : AccountsListIntent
+    data object NewAssignmentClicked : AccountsListIntent
     data class GroupClicked(val serviceId: String) : AccountsListIntent
     data class AccountClicked(val accountId: String) : AccountsListIntent
 }
@@ -28,5 +29,6 @@ sealed interface AccountsListIntent : UiIntent {
 sealed interface AccountsListEvent : UiEvent {
     data object NavigateToCreate : AccountsListEvent
     data object NavigateToCatalog : AccountsListEvent
+    data object NavigateToNewAssignment : AccountsListEvent
     data class NavigateToDetail(val accountId: String) : AccountsListEvent
 }
