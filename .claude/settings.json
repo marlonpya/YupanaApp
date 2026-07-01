@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:maven.pkg.jetbrains.space)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:central.sonatype.com)",
+      "WebFetch(domain:supabase.com)",
+      "Bash(git status)",
+      "Bash(git status:*)",
+      "Bash(git diff)",
+      "Bash(git diff:*)",
+      "Bash(git log)",
+      "Bash(git log:*)",
+      "Bash(./gradlew compileCommonMainKotlinMetadata)",
+      "Bash(./gradlew test)",
+      "Bash(./gradlew :app:assembleDebug)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git push --force-with-lease*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(git branch -D*)",
+      "Bash(rm -rf*)",
+      "Read(./secrets.properties)",
+      "Read(./bd-password.txt)",
+      "Read(**/google-services.json)",
+      "Read(**/GoogleService-Info.plist)",
+      "Read(**/*.jks)",
+      "Read(**/*.keystore)"
+    ]
+  }
+}

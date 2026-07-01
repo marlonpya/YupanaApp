@@ -177,3 +177,32 @@ Esquinas redondeadas generosas (tarjetas ~18px). Tipografía Roboto/Roboto Flex.
   fakes en vez de MockK para `commonTest`).
 - **Secrets fuera del repo** desde el primer commit.
 - Comentarios y nombres de dominio en español; código idiomático Kotlin.
+- **Compilar/verificar en WSL:** ver `docs/DESARROLLO.md` (setup de JDK/SDK Linux propio,
+  comandos de verificación, límite de `git push` en WSL).
+
+### Flujo de ramas
+
+- **Nada se commitea directo a `master`.** Todo trabajo nuevo va en una rama
+  `feature/<slug-descriptivo>`, ramificada desde `master` actualizado.
+- **Gate manual antes de abrir PR** (no hay CI todavía): `./gradlew
+  compileCommonMainKotlinMetadata` (o `:app:assembleDebug` si aplica) debe compilar
+  limpio.
+- **PR + merge:** push de la rama, abrir Pull Request en GitHub, revisar/aprobar uno
+  mismo, fusionar con **merge commit (`--no-ff`, no squash, no rebase)** para conservar
+  los commits atómicos de la rama. Borrar la rama tras fusionar.
+- **Mapeo sugerido fase → rama** (ejemplo, no un nombre obligatorio — el slug lo decide
+  quien empieza la fase):
+
+  | Fase (ver arriba) | Rama sugerida |
+  |---|---|
+  | 4. Mis cuentas agrupado | `feature/cuentas-agrupadas` |
+  | 5. Asignar perfil | `feature/asignar-perfil` |
+  | 6. Mover integrante | `feature/mover-cliente` |
+  | 7. Push/recordatorios | `feature/recordatorios-push` |
+
+- **Fases grandes se pueden partir en varias ramas/PRs** (ej. `feature/cuentas-listado`
+  y `feature/cuentas-expandir`) en vez de esperar a que toda la fase esté lista — cada
+  una se fusiona cuando compile y funcione, sin bloquear el resto.
+- **Recomendado (manual, vía GitHub Settings → Branches):** activar *branch protection*
+  en `master` para exigir PR antes de mergear y bloquear push directo, reforzando la
+  regla a nivel de plataforma y no solo por disciplina.
