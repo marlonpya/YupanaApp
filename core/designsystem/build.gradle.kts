@@ -34,6 +34,8 @@ kotlin {
             api(compose.foundation)
             api(compose.material3)
             api(compose.ui)
+            // Íconos (mail/lock/visibility…) para campos y pantallas. R8 descarta los no usados.
+            api(compose.materialIconsExtended)
         }
     }
 }
