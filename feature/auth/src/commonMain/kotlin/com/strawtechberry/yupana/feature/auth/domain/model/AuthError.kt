@@ -1,12 +1,12 @@
 package com.strawtechberry.yupana.feature.auth.domain.model
 
-/** Errores de autenticación en lenguaje de dominio (traducibles a mensajes de UI). */
+/** Authentication errors in domain language (translatable to UI messages). */
 sealed interface AuthError {
-    data object CredencialesInvalidas : AuthError
-    data object EmailYaRegistrado : AuthError
-    data object EmailNoConfirmado : AuthError
-    data object SinConexion : AuthError
-    data class Desconocida(val detalle: String?) : AuthError
+    data object InvalidCredentials : AuthError
+    data object EmailAlreadyRegistered : AuthError
+    data object EmailNotConfirmed : AuthError
+    data object NoConnection : AuthError
+    data class Unknown(val detail: String?) : AuthError
 }
 
 /** Excepción que transporta un [AuthError] a través de `Result.failure`. */
