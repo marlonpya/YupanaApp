@@ -4,28 +4,28 @@ import com.strawtechberry.yupana.core.mvi.UiEvent
 import com.strawtechberry.yupana.core.mvi.UiIntent
 import com.strawtechberry.yupana.core.mvi.UiState
 
-/** Estado de la pantalla de Login. */
+/** Login screen state. */
 data class LoginUiState(
     val email: String = "",
     val password: String = "",
     val emailError: String? = null,
     val passwordError: String? = null,
     val formError: String? = null,
-    val cargando: Boolean = false,
+    val isLoading: Boolean = false,
 ) : UiState
 
-/** Acciones del usuario en Login. */
+/** User actions on Login. */
 sealed interface LoginIntent : UiIntent {
-    data class EmailCambiado(val valor: String) : LoginIntent
-    data class PasswordCambiado(val valor: String) : LoginIntent
-    data object Enviar : LoginIntent
-    data object IrARegistro : LoginIntent
-    data object OlvidePassword : LoginIntent
+    data class EmailChanged(val value: String) : LoginIntent
+    data class PasswordChanged(val value: String) : LoginIntent
+    data object Submit : LoginIntent
+    data object NavigateToRegister : LoginIntent
+    data object ForgotPasswordClicked : LoginIntent
 }
 
-/** Efectos de una sola vez de Login. */
+/** One-time effects of Login. */
 sealed interface LoginEvent : UiEvent {
-    data object NavegarADashboard : LoginEvent
-    data object NavegarARegistro : LoginEvent
-    data object NavegarAOlvidePassword : LoginEvent
+    data object NavigateToDashboard : LoginEvent
+    data object NavigateToRegister : LoginEvent
+    data object NavigateToForgotPassword : LoginEvent
 }
