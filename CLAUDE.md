@@ -223,7 +223,12 @@ Esquinas redondeadas generosas (tarjetas ~18px). Tipografía Roboto/Roboto Flex.
 
 - **Compose:**
   - `@Preview` obligatorio en composables **nuevos** de pantalla o componente reutilizable
-    (import CMP: `org.jetbrains.compose.ui.tooling.preview.Preview`). Deuda conocida: las
+    (import CMP: `org.jetbrains.compose.ui.tooling.preview.Preview` — el compilador la
+    marca deprecada sugiriendo `androidx.compose.ui.tooling.preview.Preview`, pero esa
+    alternativa no resuelve en `commonMain` con la versión de CMP del proyecto (1.11.1);
+    usar la ruta `org.jetbrains.*` y requiere
+    `implementation(compose.components.uiToolingPreview)` en el `build.gradle.kts` del
+    módulo). Deuda conocida: las
     pantallas de auth (Login/Register/Splash) no lo tienen todavía; no se retrofittea
     como parte de esta regla, solo aplica hacia adelante.
   - Composables **stateless**: reciben estado y lambdas por parámetro, sin lógica de
