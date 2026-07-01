@@ -4,14 +4,14 @@ import com.strawtechberry.yupana.core.mvi.UiEvent
 import com.strawtechberry.yupana.core.mvi.UiIntent
 import com.strawtechberry.yupana.core.mvi.UiState
 
-/** El Splash solo espera a que se resuelva la sesión; su estado es constante. */
+/** Splash only waits for the session to resolve; its state is constant. */
 data object SplashUiState : UiState
 
-/** El Splash no recibe acciones del usuario. */
+/** Splash doesn't receive user actions. */
 sealed interface SplashIntent : UiIntent
 
-/** Destino decidido según haya o no sesión activa. */
+/** Destination decided based on whether there's an active session or not. */
 sealed interface SplashEvent : UiEvent {
-    data object NavegarADashboard : SplashEvent
-    data object NavegarALogin : SplashEvent
+    data object NavigateToDashboard : SplashEvent
+    data object NavigateToLogin : SplashEvent
 }

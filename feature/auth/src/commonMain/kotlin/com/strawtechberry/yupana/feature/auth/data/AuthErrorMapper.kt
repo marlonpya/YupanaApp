@@ -2,56 +2,56 @@ package com.strawtechberry.yupana.feature.auth.data
 
 import com.strawtechberry.yupana.feature.auth.domain.model.AuthError
 
-/** Contexto de la operación para desambiguar errores genéricos (un 400 en login = credenciales). */
-internal enum class OperacionAuth { IniciarSesion, Registrar }
+/** Operation context to disambiguate generic errors (a 400 on login = credentials). */
+internal enum class AuthOperation { SignIn, Register }
 
 /**
- * Traduce las excepciones de supabase-kt/Ktor a [AuthError] de dominio. Se apoya en el texto del
- * error y en la cadena de causas (sin depender de tipos de plataforma) para funcionar en KMP.
+ * Translates supabase-kt/Ktor exceptions into domain [AuthError]. Relies on the error
+ * text and the cause chain (without depending on platform types) to work across KMP.
  */
-internal fun mapearAuthError(t: Throwable, operacion: OperacionAuth): AuthError {
-    val texto = cadenaDeTexto(t)
+internal fun mapAuthError(t: Throwable, operation: AuthOperation): AuthError {
+    val text = causeChainText(t)
 
     return when {
-        esErrorDeRed(t, texto) -> AuthError.SinConexion
+        isNetworkError(t, text) -> AuthError.NoConnection
 
-        texto.contains("email not confirmed") ||
-            texto.contains("email_not_confirmed") -> AuthError.EmailNoConfirmado
+        text.contains("email not confirmed") ||
+            text.contains("email_not_confirmed") -> AuthError.EmailNotConfirmed
 
-        texto.contains("already registered") ||
-            texto.contains("already exists") ||
-            texto.contains("user_already_exists") ||
-            texto.contains("email_exists") -> AuthError.EmailYaRegistrado
+        text.contains("already registered") ||
+            text.contains("already exists") ||
+            text.contains("user_already_exists") ||
+            text.contains("email_exists") -> AuthError.EmailAlreadyRegistered
 
-        texto.contains("invalid login") ||
-            texto.contains("invalid_credentials") ||
-            texto.contains("invalid credentials") -> AuthError.CredencialesInvalidas
+        text.contains("invalid login") ||
+            text.contains("invalid_credentials") ||
+            text.contains("invalid credentials") -> AuthError.InvalidCredentials
 
-        // Un fallo sin mensaje claro al iniciar sesión suele ser credenciales inválidas.
-        operacion == OperacionAuth.IniciarSesion && texto.contains("400") -> AuthError.CredencialesInvalidas
+        // A failure without a clear message on sign in is usually invalid credentials.
+        operation == AuthOperation.SignIn && text.contains("400") -> AuthError.InvalidCredentials
 
-        else -> AuthError.Desconocida(t.message)
+        else -> AuthError.Unknown(t.message)
     }
 }
 
-/** Une mensaje y nombres de clase de toda la cadena de causas, en minúsculas. */
-private fun cadenaDeTexto(t: Throwable): String {
+/** Joins message and class names of the whole cause chain, lowercased. */
+private fun causeChainText(t: Throwable): String {
     val sb = StringBuilder()
-    var actual: Throwable? = t
-    var guarda = 0
-    while (actual != null && guarda < 10) {
-        sb.append(actual::class.simpleName).append(' ').append(actual.message).append(' ')
-        actual = actual.cause
-        guarda++
+    var current: Throwable? = t
+    var depth = 0
+    while (current != null && depth < 10) {
+        sb.append(current::class.simpleName).append(' ').append(current.message).append(' ')
+        current = current.cause
+        depth++
     }
     return sb.toString().lowercase()
 }
 
-/** Heurística de red multiplataforma: busca síntomas típicos en la cadena de causas. */
-private fun esErrorDeRed(t: Throwable, texto: String): Boolean {
-    val marcadores = listOf(
+/** Cross-platform network heuristic: looks for typical symptoms in the cause chain. */
+private fun isNetworkError(t: Throwable, text: String): Boolean {
+    val markers = listOf(
         "unknownhost", "unresolved", "connect", "socket", "timeout",
         "network", "failed to connect", "connection", "unreachable", "econn",
     )
-    return marcadores.any { texto.contains(it) }
+    return markers.any { text.contains(it) }
 }

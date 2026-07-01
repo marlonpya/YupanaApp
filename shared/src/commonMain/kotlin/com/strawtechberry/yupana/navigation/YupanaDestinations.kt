@@ -1,7 +1,7 @@
 package com.strawtechberry.yupana.navigation
 
 /** Rutas del NavHost central. */
-object YupanaDestinos {
+object YupanaDestinations {
     const val SPLASH = "splash"
     const val LOGIN = "login"
     const val REGISTER = "register"

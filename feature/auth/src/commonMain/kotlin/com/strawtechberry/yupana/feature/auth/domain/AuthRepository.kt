@@ -1,31 +1,31 @@
 package com.strawtechberry.yupana.feature.auth.domain
 
-import com.strawtechberry.yupana.feature.auth.domain.model.EstadoSesion
-import com.strawtechberry.yupana.feature.auth.domain.model.SesionUsuario
+import com.strawtechberry.yupana.feature.auth.domain.model.AuthSession
+import com.strawtechberry.yupana.feature.auth.domain.model.SessionState
 import kotlinx.coroutines.flow.Flow
 
 /**
- * Puerto de autenticación. La implementación ([data.DefaultAuthRepository]) usa supabase-kt;
- * el dominio y la presentación no conocen el SDK. Los errores viajan como
+ * Auth port. The implementation ([data.DefaultAuthRepository]) uses supabase-kt;
+ * domain and presentation don't know about the SDK. Errors travel as
  * `Result.failure(AuthException(...))`.
  */
 interface AuthRepository {
 
-    /** Inicia sesión con correo y contraseña. */
-    suspend fun iniciarSesion(email: String, password: String): Result<Unit>
+    /** Signs in with email and password. */
+    suspend fun signIn(email: String, password: String): Result<Unit>
 
     /**
-     * Registra un admin nuevo. Devuelve la sesión si el proyecto autoconfirma el email
-     * (sesión activa inmediata) o `null` si requiere confirmación por correo.
+     * Registers a new admin. Returns the session if the project auto-confirms the
+     * email (session active immediately) or `null` if it requires email confirmation.
      */
-    suspend fun registrar(email: String, password: String): Result<SesionUsuario?>
+    suspend fun register(email: String, password: String): Result<AuthSession?>
 
-    /** Sesión actual ya cargada, o `null` si no hay. */
-    suspend fun sesionActual(): SesionUsuario?
+    /** Session already loaded, or `null` if there isn't one. */
+    suspend fun currentSession(): AuthSession?
 
-    /** Estado observable de la sesión (fuente del routing del Splash). */
-    fun observarEstadoSesion(): Flow<EstadoSesion>
+    /** Observable session state (source of the Splash routing). */
+    fun observeSessionState(): Flow<SessionState>
 
-    /** Cierra la sesión y limpia el almacenamiento seguro. */
-    suspend fun cerrarSesion()
+    /** Signs out and clears secure storage. */
+    suspend fun signOut()
 }
