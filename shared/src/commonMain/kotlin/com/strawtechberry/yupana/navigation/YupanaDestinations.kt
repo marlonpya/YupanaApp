@@ -30,4 +30,8 @@ object YupanaDestinations {
     const val ASSIGN_PROFILE_ROUTE = "assign_profile"
     const val ASSIGN_PROFILE =
         "$ASSIGN_PROFILE_ROUTE?$ASSIGN_ACCOUNT_ARG_ID={$ASSIGN_ACCOUNT_ARG_ID}&$ASSIGN_PROFILE_ARG_ID={$ASSIGN_PROFILE_ARG_ID}"
+
+    const val ASSIGNMENT_DETAIL_ARG_ID = "assignmentId"
+    const val ASSIGNMENT_DETAIL_ROUTE = "assignment_detail"
+    const val ASSIGNMENT_DETAIL = "$ASSIGNMENT_DETAIL_ROUTE/{$ASSIGNMENT_DETAIL_ARG_ID}"
 }

@@ -19,7 +19,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /** Placeholder de "Ajustes" (grupo posterior lo reemplaza). */
 @Composable
-fun SettingsPlaceholderScreen(onOpenServiceCatalog: () -> Unit) {
+fun SettingsPlaceholderScreen(onOpenServiceCatalog: () -> Unit, onCerrarSesion: () -> Unit) {
     val colors = YupanaTheme.colors
     val spacing = YupanaTheme.spacing
     Box(
@@ -48,6 +48,11 @@ fun SettingsPlaceholderScreen(onOpenServiceCatalog: () -> Unit) {
                 variant = YupanaButtonVariant.Secondary,
                 onClick = onOpenServiceCatalog,
             )
+            YupanaButton(
+                text = "Cerrar sesión",
+                variant = YupanaButtonVariant.Secondary,
+                onClick = onCerrarSesion,
+            )
         }
     }
 }
@@ -55,5 +60,5 @@ fun SettingsPlaceholderScreen(onOpenServiceCatalog: () -> Unit) {
 @Preview
 @Composable
 private fun SettingsPlaceholderScreenPreview() {
-    SettingsPlaceholderScreen(onOpenServiceCatalog = {})
+    SettingsPlaceholderScreen(onOpenServiceCatalog = {}, onCerrarSesion = {})
 }

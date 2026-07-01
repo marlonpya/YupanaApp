@@ -17,6 +17,7 @@ import com.strawtechberry.yupana.feature.auth.ui.login.LoginRoute
 import com.strawtechberry.yupana.feature.auth.ui.register.RegisterRoute
 import com.strawtechberry.yupana.feature.auth.ui.splash.SplashRoute
 import com.strawtechberry.yupana.feature.clients.ui.form.ClientFormRoute
+import com.strawtechberry.yupana.feature.dashboard.ui.detail.AssignmentDetailRoute
 import com.strawtechberry.yupana.ui.MainScaffold
 
 /**
@@ -82,6 +83,7 @@ fun YupanaNavHost() {
                 onOpenAccountDetail = { id -> navController.navigate("${YupanaDestinations.ACCOUNT_DETAIL_ROUTE}/$id") },
                 onOpenServiceCatalog = { navController.navigate(YupanaDestinations.SERVICE_CATALOG_ROUTE) },
                 onCreateAssignment = { navController.navigate(YupanaDestinations.ASSIGN_PROFILE_ROUTE) },
+                onOpenAssignmentDetail = { id -> navController.navigate("${YupanaDestinations.ASSIGNMENT_DETAIL_ROUTE}/$id") },
             )
         }
 
@@ -193,6 +195,20 @@ fun YupanaNavHost() {
                 onBack = { navController.popBackStack() },
                 onAssigned = { navController.popBackStack() },
             )
+        }
+
+        composable(
+            route = YupanaDestinations.ASSIGNMENT_DETAIL,
+            arguments = listOf(navArgument(YupanaDestinations.ASSIGNMENT_DETAIL_ARG_ID) { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val assignmentId = backStackEntry.arguments?.read { getString(YupanaDestinations.ASSIGNMENT_DETAIL_ARG_ID) }
+            if (assignmentId != null) {
+                AssignmentDetailRoute(
+                    assignmentId = assignmentId,
+                    onBack = { navController.popBackStack() },
+                    onActionCompleted = { navController.popBackStack() },
+                )
+            }
         }
     }
 }
