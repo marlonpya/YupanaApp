@@ -32,8 +32,22 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.designsystem)
+            implementation(projects.core.mvi)
+            implementation(projects.core.supabase)
+            implementation(projects.feature.auth)
+
+            implementation(libs.jetbrains.navigation.compose)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
+            implementation(libs.jetbrains.lifecycle.viewmodel)
+            implementation(libs.jetbrains.lifecycle.runtime.compose)
+            implementation(libs.kotlinx.coroutines.core)
+
             api(compose.runtime)
             api(compose.foundation)
+            api(compose.material3)
             api(compose.ui)
         }
     }

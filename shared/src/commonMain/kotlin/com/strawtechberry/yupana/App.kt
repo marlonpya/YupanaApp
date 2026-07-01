@@ -1,16 +1,20 @@
 package com.strawtechberry.yupana
 
 import androidx.compose.runtime.Composable
-import com.strawtechberry.yupana.core.designsystem.showcase.DesignSystemShowcase
 import com.strawtechberry.yupana.core.designsystem.theme.YupanaTheme
+import com.strawtechberry.yupana.di.appModules
+import com.strawtechberry.yupana.navigation.YupanaNavHost
+import org.koin.compose.KoinApplication
 
 /**
- * Punto de entrada COMPARTIDO (Android + iOS). Fase 2: renderiza el catálogo del design
- * system bajo el tema oscuro andino. Las pantallas reales del MVP llegan en Fase 3.
+ * Punto de entrada COMPARTIDO (Android + iOS). Arranca Koin con los secrets ya cargados por la
+ * plataforma ([SupabaseSecrets]) y monta el NavHost bajo el tema oscuro andino.
  */
 @Composable
 fun App() {
-    YupanaTheme {
-        DesignSystemShowcase()
+    KoinApplication(application = { modules(appModules(SupabaseSecrets.config)) }) {
+        YupanaTheme {
+            YupanaNavHost()
+        }
     }
 }
