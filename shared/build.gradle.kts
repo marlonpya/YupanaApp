@@ -31,7 +31,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // Solo lo mínimo para el entry point compartido. El design system llega en Fase 2.
+            implementation(projects.core.designsystem)
             api(compose.runtime)
             api(compose.foundation)
             api(compose.ui)
