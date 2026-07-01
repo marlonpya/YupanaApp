@@ -191,8 +191,11 @@ Esquinas redondeadas generosas (tarjetas ~18px). Tipografía Roboto/Roboto Flex.
 
 ### Flujo de ramas
 
-- **Nada se commitea directo a `master`.** Todo trabajo nuevo va en una rama
-  `feature/<slug-descriptivo>`, ramificada desde `master` actualizado.
+- **`develop` es la rama de integración; `master` queda para releases.** Nada se
+  commitea directo a ninguna de las dos. Todo trabajo nuevo va en una rama
+  `feature/<slug-descriptivo>`, ramificada desde `develop` actualizado, con PR y
+  merge de vuelta a `develop`. `master` se actualiza aparte (merge `develop` →
+  `master`) cuando se corte una release; ese proceso no está definido todavía.
 - **Gate manual antes de abrir PR** (no hay CI todavía): `./gradlew
   compileCommonMainKotlinMetadata` (o `:app:assembleDebug` si aplica) debe compilar
   limpio.
@@ -220,7 +223,12 @@ Esquinas redondeadas generosas (tarjetas ~18px). Tipografía Roboto/Roboto Flex.
 
 - **Compose:**
   - `@Preview` obligatorio en composables **nuevos** de pantalla o componente reutilizable
-    (import CMP: `org.jetbrains.compose.ui.tooling.preview.Preview`). Deuda conocida: las
+    (import CMP: `org.jetbrains.compose.ui.tooling.preview.Preview` — el compilador la
+    marca deprecada sugiriendo `androidx.compose.ui.tooling.preview.Preview`, pero esa
+    alternativa no resuelve en `commonMain` con la versión de CMP del proyecto (1.11.1);
+    usar la ruta `org.jetbrains.*` y requiere
+    `implementation(compose.components.uiToolingPreview)` en el `build.gradle.kts` del
+    módulo). Deuda conocida: las
     pantallas de auth (Login/Register/Splash) no lo tienen todavía; no se retrofittea
     como parte de esta regla, solo aplica hacia adelante.
   - Composables **stateless**: reciben estado y lambdas por parámetro, sin lógica de
