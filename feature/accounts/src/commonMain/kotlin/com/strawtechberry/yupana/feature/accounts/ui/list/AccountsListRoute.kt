@@ -16,6 +16,7 @@ fun AccountsListRoute(
     onCreateAccount: () -> Unit,
     onOpenAccountDetail: (String) -> Unit,
     onOpenServiceCatalog: () -> Unit,
+    onCreateAssignment: () -> Unit,
     viewModel: AccountsListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -27,6 +28,7 @@ fun AccountsListRoute(
             when (event) {
                 AccountsListEvent.NavigateToCreate -> onCreateAccount()
                 AccountsListEvent.NavigateToCatalog -> onOpenServiceCatalog()
+                AccountsListEvent.NavigateToNewAssignment -> onCreateAssignment()
                 is AccountsListEvent.NavigateToDetail -> onOpenAccountDetail(event.accountId)
             }
         }

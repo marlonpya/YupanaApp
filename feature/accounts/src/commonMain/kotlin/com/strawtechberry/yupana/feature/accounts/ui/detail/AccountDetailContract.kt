@@ -21,11 +21,7 @@ sealed interface AccountDetailIntent : UiIntent {
     data object EditClicked : AccountDetailIntent
     data object BackClicked : AccountDetailIntent
 
-    /**
-     * Tapped "Asignar cliente" on a free profile. No-op for now — the real assignment
-     * flow is Grupo 4, which doesn't exist yet, so there's genuinely nowhere to
-     * navigate to. Left explicit rather than routed through an unhandled [UiEvent].
-     */
+    /** Tapped "Asignar cliente" on a free profile. */
     data class AssignClicked(val profileId: String) : AccountDetailIntent
 }
 
@@ -33,4 +29,5 @@ sealed interface AccountDetailIntent : UiIntent {
 sealed interface AccountDetailEvent : UiEvent {
     data object NavigateBack : AccountDetailEvent
     data class NavigateToEdit(val accountId: String) : AccountDetailEvent
+    data class NavigateToAssign(val accountId: String, val profileId: String) : AccountDetailEvent
 }

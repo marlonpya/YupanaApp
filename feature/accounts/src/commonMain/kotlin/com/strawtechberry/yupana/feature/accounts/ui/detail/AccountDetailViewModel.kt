@@ -22,7 +22,7 @@ class AccountDetailViewModel(
             AccountDetailIntent.Retry -> load()
             AccountDetailIntent.EditClicked -> sendEvent(AccountDetailEvent.NavigateToEdit(accountId))
             AccountDetailIntent.BackClicked -> sendEvent(AccountDetailEvent.NavigateBack)
-            is AccountDetailIntent.AssignClicked -> Unit // Grupo 4 aún no existe; no-op deliberado.
+            is AccountDetailIntent.AssignClicked -> sendEvent(AccountDetailEvent.NavigateToAssign(accountId, intent.profileId))
         }
     }
 

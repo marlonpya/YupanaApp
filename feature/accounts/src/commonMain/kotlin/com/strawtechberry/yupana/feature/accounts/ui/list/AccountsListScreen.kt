@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.List
+import androidx.compose.material.icons.rounded.PersonAddAlt
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -44,6 +45,9 @@ fun AccountsListScreen(
             action = {
                 IconButton(onClick = { onIntent(AccountsListIntent.CatalogClicked) }) {
                     Icon(Icons.Rounded.List, contentDescription = "Catálogo de servicios", tint = colors.textoSecundario)
+                }
+                IconButton(onClick = { onIntent(AccountsListIntent.NewAssignmentClicked) }) {
+                    Icon(Icons.Rounded.PersonAddAlt, contentDescription = "Nueva asignación", tint = colors.textoSecundario)
                 }
                 IconButton(onClick = { onIntent(AccountsListIntent.CreateClicked) }) {
                     Icon(Icons.Rounded.Add, contentDescription = "Crear cuenta", tint = colors.marca)

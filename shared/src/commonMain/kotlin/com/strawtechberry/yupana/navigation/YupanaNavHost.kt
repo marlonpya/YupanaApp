@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.strawtechberry.yupana.feature.accounts.ui.catalog.ServiceCatalogRoute
 import com.strawtechberry.yupana.feature.accounts.ui.detail.AccountDetailRoute
 import com.strawtechberry.yupana.feature.accounts.ui.form.AccountFormRoute
+import com.strawtechberry.yupana.feature.assignment.ui.assign.AssignRoute
 import com.strawtechberry.yupana.feature.auth.ui.login.LoginRoute
 import com.strawtechberry.yupana.feature.auth.ui.register.RegisterRoute
 import com.strawtechberry.yupana.feature.auth.ui.splash.SplashRoute
@@ -80,6 +81,7 @@ fun YupanaNavHost() {
                 onCreateAccount = { navController.navigate(YupanaDestinations.ACCOUNT_FORM_ROUTE) },
                 onOpenAccountDetail = { id -> navController.navigate("${YupanaDestinations.ACCOUNT_DETAIL_ROUTE}/$id") },
                 onOpenServiceCatalog = { navController.navigate(YupanaDestinations.SERVICE_CATALOG_ROUTE) },
+                onCreateAssignment = { navController.navigate(YupanaDestinations.ASSIGN_PROFILE_ROUTE) },
             )
         }
 
@@ -160,8 +162,37 @@ fun YupanaNavHost() {
                     onEditAccount = { id ->
                         navController.navigate("${YupanaDestinations.ACCOUNT_FORM_ROUTE}?${YupanaDestinations.ACCOUNT_FORM_ARG_ID}=$id")
                     },
+                    onAssignProfile = { accId, profileId ->
+                        navController.navigate(
+                            "${YupanaDestinations.ASSIGN_PROFILE_ROUTE}?${YupanaDestinations.ASSIGN_ACCOUNT_ARG_ID}=$accId" +
+                                "&${YupanaDestinations.ASSIGN_PROFILE_ARG_ID}=$profileId",
+                        )
+                    },
                 )
             }
+        }
+
+        composable(
+            route = YupanaDestinations.ASSIGN_PROFILE,
+            arguments = listOf(
+                navArgument(YupanaDestinations.ASSIGN_ACCOUNT_ARG_ID) {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                },
+                navArgument(YupanaDestinations.ASSIGN_PROFILE_ARG_ID) {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                },
+            ),
+        ) { backStackEntry ->
+            AssignRoute(
+                accountId = backStackEntry.arguments?.read { getStringOrNull(YupanaDestinations.ASSIGN_ACCOUNT_ARG_ID) },
+                profileId = backStackEntry.arguments?.read { getStringOrNull(YupanaDestinations.ASSIGN_PROFILE_ARG_ID) },
+                onBack = { navController.popBackStack() },
+                onAssigned = { navController.popBackStack() },
+            )
         }
     }
 }

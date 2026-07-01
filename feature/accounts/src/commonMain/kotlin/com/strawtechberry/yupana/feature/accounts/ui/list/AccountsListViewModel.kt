@@ -22,6 +22,7 @@ class AccountsListViewModel(
             AccountsListIntent.Retry -> runQuery(currentState.query)
             AccountsListIntent.CreateClicked -> sendEvent(AccountsListEvent.NavigateToCreate)
             AccountsListIntent.CatalogClicked -> sendEvent(AccountsListEvent.NavigateToCatalog)
+            AccountsListIntent.NewAssignmentClicked -> sendEvent(AccountsListEvent.NavigateToNewAssignment)
             is AccountsListIntent.GroupClicked -> setState {
                 val expanded = expandedServiceIds
                 copy(

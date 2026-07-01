@@ -13,6 +13,7 @@ fun AccountDetailRoute(
     accountId: String,
     onBack: () -> Unit,
     onEditAccount: (String) -> Unit,
+    onAssignProfile: (accountId: String, profileId: String) -> Unit,
     viewModel: AccountDetailViewModel = koinViewModel(key = accountId) { parametersOf(accountId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -22,6 +23,7 @@ fun AccountDetailRoute(
             when (event) {
                 AccountDetailEvent.NavigateBack -> onBack()
                 is AccountDetailEvent.NavigateToEdit -> onEditAccount(event.accountId)
+                is AccountDetailEvent.NavigateToAssign -> onAssignProfile(event.accountId, event.profileId)
             }
         }
     }

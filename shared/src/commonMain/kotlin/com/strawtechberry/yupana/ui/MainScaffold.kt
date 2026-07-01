@@ -27,6 +27,7 @@ fun MainScaffold(
     onCreateAccount: () -> Unit,
     onOpenAccountDetail: (String) -> Unit,
     onOpenServiceCatalog: () -> Unit,
+    onCreateAssignment: () -> Unit,
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
 
@@ -40,6 +41,7 @@ fun MainScaffold(
                     onCreateAccount = onCreateAccount,
                     onOpenAccountDetail = onOpenAccountDetail,
                     onOpenServiceCatalog = onOpenServiceCatalog,
+                    onCreateAssignment = onCreateAssignment,
                 )
                 2 -> ClientsListRoute(onCreateClient = onCreateClient, onEditClient = onEditClient)
                 else -> SettingsPlaceholderScreen(onOpenServiceCatalog = onOpenServiceCatalog)

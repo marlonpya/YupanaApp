@@ -37,6 +37,7 @@ kotlin {
             implementation(projects.feature.auth)
             implementation(projects.feature.clients)
             implementation(projects.feature.accounts)
+            implementation(projects.feature.assignment)
 
             implementation(libs.jetbrains.navigation.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
