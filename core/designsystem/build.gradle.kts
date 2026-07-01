@@ -36,6 +36,12 @@ kotlin {
             api(compose.ui)
             // Íconos (mail/lock/visibility…) para campos y pantallas. R8 descarta los no usados.
             api(compose.materialIconsExtended)
+            api(compose.components.resources)
         }
     }
+}
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.strawtechberry.yupana.core.designsystem.generated.resources"
 }
