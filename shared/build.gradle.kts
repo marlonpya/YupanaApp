@@ -35,6 +35,7 @@ kotlin {
             implementation(projects.core.mvi)
             implementation(projects.core.supabase)
             implementation(projects.feature.auth)
+            implementation(projects.feature.clients)
 
             implementation(libs.jetbrains.navigation.compose)
             implementation(project.dependencies.platform(libs.koin.bom))
@@ -49,6 +50,7 @@ kotlin {
             api(compose.foundation)
             api(compose.material3)
             api(compose.ui)
+            implementation(compose.components.uiToolingPreview)
         }
     }
 }
