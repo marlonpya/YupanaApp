@@ -27,7 +27,7 @@ import com.strawtechberry.yupana.core.designsystem.component.YupanaTextField
 import com.strawtechberry.yupana.core.designsystem.theme.YupanaTheme
 import com.strawtechberry.yupana.feature.auth.ui.common.AuthScreenContainer
 
-/** Pantalla de Login (stateless). Recibe el estado y emite intenciones vía [onIntent]. */
+/** Login screen (stateless). Receives the state and emits intents via [onIntent]. */
 @Composable
 fun LoginScreen(
     state: LoginUiState,
@@ -53,7 +53,7 @@ fun LoginScreen(
 
         YupanaTextField(
             value = state.email,
-            onValueChange = { onIntent(LoginIntent.EmailCambiado(it)) },
+            onValueChange = { onIntent(LoginIntent.EmailChanged(it)) },
             label = "Correo electrónico",
             modifier = Modifier.fillMaxWidth(),
             leadingIcon = Icons.Rounded.Mail,
@@ -64,7 +64,7 @@ fun LoginScreen(
         Spacer(Modifier.height(spacing.md))
         YupanaTextField(
             value = state.password,
-            onValueChange = { onIntent(LoginIntent.PasswordCambiado(it)) },
+            onValueChange = { onIntent(LoginIntent.PasswordChanged(it)) },
             label = "Contraseña",
             modifier = Modifier.fillMaxWidth(),
             leadingIcon = Icons.Rounded.Lock,
@@ -81,7 +81,7 @@ fun LoginScreen(
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(top = spacing.sm)
-                .clickable { onIntent(LoginIntent.OlvidePassword) },
+                .clickable { onIntent(LoginIntent.ForgotPasswordClicked) },
         )
 
         if (state.formError != null) {
@@ -98,9 +98,9 @@ fun LoginScreen(
         Spacer(Modifier.height(spacing.xl))
         YupanaButton(
             text = "Iniciar sesión",
-            onClick = { onIntent(LoginIntent.Enviar) },
+            onClick = { onIntent(LoginIntent.Submit) },
             modifier = Modifier.fillMaxWidth(),
-            loading = state.cargando,
+            loading = state.isLoading,
         )
 
         Spacer(Modifier.height(spacing.xxl))
@@ -110,7 +110,7 @@ fun LoginScreen(
                 text = "Crear cuenta",
                 style = YupanaTheme.typography.body.copy(fontWeight = FontWeight.SemiBold),
                 color = colors.acento,
-                modifier = Modifier.clickable { onIntent(LoginIntent.IrARegistro) },
+                modifier = Modifier.clickable { onIntent(LoginIntent.NavigateToRegister) },
             )
         }
         Spacer(Modifier.height(spacing.lg))

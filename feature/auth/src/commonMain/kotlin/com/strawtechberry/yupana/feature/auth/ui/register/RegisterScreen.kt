@@ -24,7 +24,7 @@ import com.strawtechberry.yupana.core.designsystem.component.YupanaTextField
 import com.strawtechberry.yupana.core.designsystem.theme.YupanaTheme
 import com.strawtechberry.yupana.feature.auth.ui.common.AuthScreenContainer
 
-/** Pantalla de Registro (stateless). */
+/** Register screen (stateless). */
 @Composable
 fun RegisterScreen(
     state: RegisterUiState,
@@ -50,7 +50,7 @@ fun RegisterScreen(
 
         YupanaTextField(
             value = state.email,
-            onValueChange = { onIntent(RegisterIntent.EmailCambiado(it)) },
+            onValueChange = { onIntent(RegisterIntent.EmailChanged(it)) },
             label = "Correo electrónico",
             modifier = Modifier.fillMaxWidth(),
             leadingIcon = Icons.Rounded.Mail,
@@ -61,7 +61,7 @@ fun RegisterScreen(
         Spacer(Modifier.height(spacing.md))
         YupanaTextField(
             value = state.password,
-            onValueChange = { onIntent(RegisterIntent.PasswordCambiado(it)) },
+            onValueChange = { onIntent(RegisterIntent.PasswordChanged(it)) },
             label = "Contraseña",
             modifier = Modifier.fillMaxWidth(),
             leadingIcon = Icons.Rounded.Lock,
@@ -73,7 +73,7 @@ fun RegisterScreen(
         Spacer(Modifier.height(spacing.md))
         YupanaTextField(
             value = state.confirmPassword,
-            onValueChange = { onIntent(RegisterIntent.ConfirmCambiado(it)) },
+            onValueChange = { onIntent(RegisterIntent.ConfirmPasswordChanged(it)) },
             label = "Confirmar contraseña",
             modifier = Modifier.fillMaxWidth(),
             leadingIcon = Icons.Rounded.Lock,
@@ -93,10 +93,10 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
-        if (state.avisoConfirmacion != null) {
+        if (state.confirmationNotice != null) {
             Spacer(Modifier.height(spacing.md))
             Text(
-                text = state.avisoConfirmacion,
+                text = state.confirmationNotice,
                 style = YupanaTheme.typography.body,
                 color = colors.exito,
                 textAlign = TextAlign.Center,
@@ -107,9 +107,9 @@ fun RegisterScreen(
         Spacer(Modifier.height(spacing.xl))
         YupanaButton(
             text = "Crear cuenta",
-            onClick = { onIntent(RegisterIntent.Enviar) },
+            onClick = { onIntent(RegisterIntent.Submit) },
             modifier = Modifier.fillMaxWidth(),
-            loading = state.cargando,
+            loading = state.isLoading,
         )
 
         Spacer(Modifier.height(spacing.xxl))
@@ -119,7 +119,7 @@ fun RegisterScreen(
                 text = "Inicia sesión",
                 style = YupanaTheme.typography.body.copy(fontWeight = FontWeight.SemiBold),
                 color = colors.acento,
-                modifier = Modifier.clickable { onIntent(RegisterIntent.IrALogin) },
+                modifier = Modifier.clickable { onIntent(RegisterIntent.NavigateToLogin) },
             )
         }
         Spacer(Modifier.height(spacing.lg))
