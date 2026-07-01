@@ -27,3 +27,4 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "YupanaApp"
 include(":app")
 include(":shared")
+include(":core:designsystem")
