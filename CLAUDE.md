@@ -191,8 +191,11 @@ Esquinas redondeadas generosas (tarjetas ~18px). Tipografía Roboto/Roboto Flex.
 
 ### Flujo de ramas
 
-- **Nada se commitea directo a `master`.** Todo trabajo nuevo va en una rama
-  `feature/<slug-descriptivo>`, ramificada desde `master` actualizado.
+- **`develop` es la rama de integración; `master` queda para releases.** Nada se
+  commitea directo a ninguna de las dos. Todo trabajo nuevo va en una rama
+  `feature/<slug-descriptivo>`, ramificada desde `develop` actualizado, con PR y
+  merge de vuelta a `develop`. `master` se actualiza aparte (merge `develop` →
+  `master`) cuando se corte una release; ese proceso no está definido todavía.
 - **Gate manual antes de abrir PR** (no hay CI todavía): `./gradlew
   compileCommonMainKotlinMetadata` (o `:app:assembleDebug` si aplica) debe compilar
   limpio.
