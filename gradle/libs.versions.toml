@@ -21,6 +21,7 @@ serialization = "1.9.0"
 ktor = "3.4.0"                     # lo exige supabase-kt 3.x
 supabase = "3.6.0"                 # BOM: auth-kt + postgrest-kt + functions-kt
 koin = "4.1.1"                     # BOM multiplataforma
+navigationCompose = "2.9.2"        # org.jetbrains.androidx.navigation (CMP 1.11.x)
 
 # Test
 junit = "4.13.2"
@@ -61,6 +62,9 @@ koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }
 koin-core = { group = "io.insert-koin", name = "koin-core" }
 koin-compose = { group = "io.insert-koin", name = "koin-compose" }
 koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel" }
+
+# --- Navegación Compose Multiplatform ---
+jetbrains-navigation-compose = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
 # --- Test ---
 junit = { group = "junit", name = "junit", version.ref = "junit" }

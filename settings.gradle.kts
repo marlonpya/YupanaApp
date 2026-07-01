@@ -28,3 +28,6 @@ rootProject.name = "YupanaApp"
 include(":app")
 include(":shared")
 include(":core:designsystem")
+include(":core:mvi")
+include(":core:supabase")
+include(":feature:auth")
