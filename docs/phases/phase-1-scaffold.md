@@ -8,10 +8,14 @@ alineadas, que compile en Android y tenga iOS estructuralmente listo.
 
 ## Estado
 
-- Estado: ⬜ pendiente
-- Iniciada: —
-- Terminada: —
-- Notas de ejecución: —
+- Estado: ✅ hecho
+- Iniciada: 2026-06-30
+- Terminada: 2026-06-30
+- Notas de ejecución: commits `fdc03d6`…`90ee1e7`. Version catalog + settings KMP,
+  módulo `:shared` (KMP + CMP), `:app` Android consumiendo `:shared`, esqueleto iOS,
+  secrets fuera del repo (`secrets.properties` gitignored + `.example`), entry point
+  "Yupana" en `#C8643C` sobre `#15110E`. Namespace `com.strawtechberry.yupana`,
+  minSdk 26 confirmados en `app/build.gradle.kts` / `libs.versions.toml`.
 
 ## Criterio de "hecho"
 

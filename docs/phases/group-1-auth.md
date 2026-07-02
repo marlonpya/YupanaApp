@@ -8,10 +8,13 @@ arquitectura MVI + Koin + design system + Supabase Auth + sesión persistente.
 
 ## Estado
 
-- Estado: ⬜ pendiente
-- Iniciada: —
-- Terminada: —
-- Notas de ejecución: —
+- Estado: ✅ hecho
+- Iniciada: 2026-07-01
+- Terminada: 2026-07-01
+- Notas de ejecución: commits `22bfa0b`…`98d9f9c` (más una serie de `refactor(auth):`
+  que tradujo dominio/casos de uso/contratos MVI a inglés). Módulos `:core:mvi` y
+  `:core:supabase` creados como base compartida; `:feature:auth` con Login, Registro
+  y Splash routing según sesión, sobre `supabase-kt` (Auth PKCE).
 
 ## Criterio de "hecho"
 

@@ -24,13 +24,13 @@
 
 | # | Fase / Grupo | Archivo | Estado |
 |---|---|---|---|
-| 1 | Esqueleto + librerías | `phase-1-scaffold.md` | ⬜ pendiente |
-| 2 | Design System | `phase-2-designsystem.md` | ⬜ pendiente |
-| 3 | Grupo 1 — Auth | `group-1-auth.md` | ⬜ pendiente |
-| 4 | Grupo 2 — Clientes | `group-2-clients.md` | ⬜ pendiente |
-| 5 | Grupo 3 — Cuentas | `group-3-accounts.md` | ⬜ pendiente |
-| 6 | Grupo 4 — Asignar perfil | `group-4-assign.md` | ⬜ pendiente |
-| 7 | Grupo 5 — Dashboard | `group-5-dashboard.md` | ⬜ pendiente |
+| 1 | Esqueleto + librerías | `phase-1-scaffold.md` | ✅ hecho |
+| 2 | Design System | `phase-2-designsystem.md` | ✅ hecho |
+| 3 | Grupo 1 — Auth | `group-1-auth.md` | ✅ hecho |
+| 4 | Grupo 2 — Clientes | `group-2-clients.md` | ✅ hecho |
+| 5 | Grupo 3 — Cuentas | `group-3-accounts.md` | ✅ hecho |
+| 6 | Grupo 4 — Asignar perfil | `group-4-assign.md` | ✅ hecho |
+| 7 | Grupo 5 — Dashboard | `group-5-dashboard.md` | 🟡 en curso (código completo en `feature/dashboard`, pendiente merge a `develop` y validación end-to-end) |
 
 **Leyenda:** ⬜ pendiente · 🟡 en curso · ✅ hecho · ⚠️ bloqueada
 
