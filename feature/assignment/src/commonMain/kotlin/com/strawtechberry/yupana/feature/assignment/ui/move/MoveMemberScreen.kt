@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -42,7 +43,7 @@ fun MoveMemberScreen(
     val colors = YupanaTheme.colors
     val spacing = YupanaTheme.spacing
 
-    Column(modifier = Modifier.fillMaxSize().background(colors.fondo)) {
+    Column(modifier = Modifier.fillMaxSize().background(colors.fondo).navigationBarsPadding()) {
         YupanaTopBar(
             title = state.clientName?.let { "Mover a $it" } ?: "Mover integrante",
             onBack = { onIntent(MoveMemberIntent.BackClicked) },

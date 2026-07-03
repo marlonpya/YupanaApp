@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Mail
@@ -39,7 +40,7 @@ fun ResetPasswordScreen(
     val colors = YupanaTheme.colors
     val spacing = YupanaTheme.spacing
 
-    Column(modifier = Modifier.fillMaxSize().background(colors.fondo)) {
+    Column(modifier = Modifier.fillMaxSize().background(colors.fondo).navigationBarsPadding()) {
         YupanaTopBar(
             title = stringResource(Res.string.reset_password_title),
             onBack = { onIntent(ResetPasswordIntent.BackClicked) },
