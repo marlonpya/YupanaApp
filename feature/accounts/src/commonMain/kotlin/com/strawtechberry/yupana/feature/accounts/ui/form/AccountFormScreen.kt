@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
@@ -38,7 +39,7 @@ fun AccountFormScreen(
     val colors = YupanaTheme.colors
     val spacing = YupanaTheme.spacing
 
-    Column(modifier = Modifier.fillMaxSize().background(colors.fondo)) {
+    Column(modifier = Modifier.fillMaxSize().background(colors.fondo).navigationBarsPadding()) {
         YupanaTopBar(
             title = if (state.isEditMode) "Editar cuenta" else "Nueva cuenta",
             onBack = { onIntent(AccountFormIntent.BackClicked) },
