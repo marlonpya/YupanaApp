@@ -3,7 +3,7 @@ package com.strawtechberry.yupana.feature.auth.data
 import com.strawtechberry.yupana.feature.auth.domain.model.AuthError
 
 /** Operation context to disambiguate generic errors (a 400 on login = credentials). */
-internal enum class AuthOperation { SignIn, Register, ResetPassword }
+internal enum class AuthOperation { SignIn, Register, ResetPassword, ChangePassword }
 
 /**
  * Translates supabase-kt/Ktor exceptions into domain [AuthError]. Relies on the error
@@ -22,6 +22,14 @@ internal fun mapAuthError(t: Throwable, operation: AuthOperation): AuthError {
             text.contains("already exists") ||
             text.contains("user_already_exists") ||
             text.contains("email_exists") -> AuthError.EmailAlreadyRegistered
+
+        operation == AuthOperation.ChangePassword &&
+            (text.contains("invalid login") || text.contains("invalid_credentials") || text.contains("invalid credentials")) ->
+            AuthError.InvalidCurrentPassword
+
+        text.contains("weak_password") ||
+            text.contains("should be at least") ||
+            text.contains("password is too short") -> AuthError.WeakPassword
 
         text.contains("invalid login") ||
             text.contains("invalid_credentials") ||

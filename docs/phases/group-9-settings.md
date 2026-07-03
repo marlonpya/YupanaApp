@@ -9,18 +9,33 @@ cuenta (perfil del admin + cambiar contraseña).
 
 ## Estado
 
-- Estado: ⬜ pendiente
-- Iniciada: —
+- Estado: 🟡 en progreso (código y migración listos, falta QA manual en el emulador)
+- Iniciada: 2026-07-03
 - Terminada: —
-- Notas de ejecución: —
+- Notas de ejecución:
+  - Persistencia: **Supabase (`user_preferences`)**, no DataStore como sugería este doc
+    originalmente. Motivo: Grupo 11 corre como cron/Edge Function *server-side*
+    (CLAUDE.md §4) y no puede leer un DataStore que vive en el dispositivo del admin.
+    Migración `create_user_preferences` aplicada sobre el proyecto real
+    (`axkkjfebvhceylccierg`): tabla con RLS `owner_id = auth.uid()` (mismo patrón que
+    `client`/`assignment`), verificada tras aplicar (columnas + policy `user_preferences_all`).
+  - Nombre del admin: **no se agregó** columna/tabla nueva. "Mi cuenta" solo muestra
+    el email (no editable, identidad Supabase). Deuda conocida documentada.
+  - "Contraseña actual" en Cambiar contraseña: se verifica de verdad server-side, no
+    es solo UI — `UserUpdateBuilder.currentPassword` (confirmado leyendo el bytecode
+    de `auth-kt` 3.6.0, no de memoria) se envía junto con la nueva contraseña en
+    `auth.updateUser { ... }`.
+  - `./gradlew compileCommonMainKotlinMetadata` → BUILD SUCCESSFUL.
 
 ## Criterio de "hecho"
 
-- [ ] Tab Ajustes ya no es placeholder: muestra pantalla raíz con secciones.
-- [ ] Preferencias de notificación permite configurar "días antes" y "hora del día".
-- [ ] Mi cuenta muestra datos del admin y permite cambiar contraseña.
-- [ ] Cerrar sesión funciona y vuelve a Login.
-- [ ] Las preferencias se persisten (Supabase o DataStore local, documentar cuál).
+- [x] Tab Ajustes ya no es placeholder: muestra pantalla raíz con secciones.
+- [x] Preferencias de notificación permite configurar "días antes" y "hora del día".
+- [x] Mi cuenta muestra datos del admin y permite cambiar contraseña.
+- [x] Cerrar sesión funciona y vuelve a Login (mecanismo ya existente, sin cambios).
+- [x] Las preferencias se persisten en Supabase (tabla + RLS aplicadas). **Falta la
+      prueba manual end-to-end en el emulador** (guardar → reentrar → verificar que
+      persiste) antes de dar el grupo por cerrado del todo.
 
 ## Prompt para Claude Code
 

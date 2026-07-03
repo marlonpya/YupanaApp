@@ -2,6 +2,8 @@ package com.strawtechberry.yupana.feature.auth.di
 
 import com.strawtechberry.yupana.feature.auth.data.DefaultAuthRepository
 import com.strawtechberry.yupana.feature.auth.domain.AuthRepository
+import com.strawtechberry.yupana.feature.auth.domain.usecase.ChangePasswordUseCase
+import com.strawtechberry.yupana.feature.auth.domain.usecase.GetCurrentUserUseCase
 import com.strawtechberry.yupana.feature.auth.domain.usecase.ObserveSessionStateUseCase
 import com.strawtechberry.yupana.feature.auth.domain.usecase.RegisterUseCase
 import com.strawtechberry.yupana.feature.auth.domain.usecase.ResetPasswordUseCase
@@ -27,6 +29,8 @@ val authModule = module {
     factoryOf(::ObserveSessionStateUseCase)
     factoryOf(::SignOutUseCase)
     factoryOf(::ResetPasswordUseCase)
+    factoryOf(::ChangePasswordUseCase)
+    factoryOf(::GetCurrentUserUseCase)
 
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)

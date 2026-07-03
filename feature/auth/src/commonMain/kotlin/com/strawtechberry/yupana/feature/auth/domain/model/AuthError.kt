@@ -6,6 +6,8 @@ sealed interface AuthError {
     data object EmailAlreadyRegistered : AuthError
     data object EmailNotConfirmed : AuthError
     data object NoConnection : AuthError
+    data object InvalidCurrentPassword : AuthError
+    data object WeakPassword : AuthError
     data class Unknown(val detail: String?) : AuthError
 }
 

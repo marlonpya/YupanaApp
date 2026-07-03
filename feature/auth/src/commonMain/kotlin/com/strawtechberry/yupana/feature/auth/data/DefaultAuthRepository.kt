@@ -47,6 +47,18 @@ class DefaultAuthRepository(private val auth: Auth) : AuthRepository {
             Unit
         }
 
+    override suspend fun changePassword(currentPassword: String, newPassword: String): Result<Unit> =
+        execute(AuthOperation.ChangePassword) {
+            // `currentPassword` would shadow the builder's own property of the same name inside the
+            // lambda below (implicit-receiver scoping), so it's captured in a local first.
+            val verifyPassword = currentPassword
+            auth.updateUser {
+                this.password = newPassword
+                this.currentPassword = verifyPassword
+            }
+            Unit
+        }
+
     override fun observeSessionState(): Flow<SessionState> =
         auth.sessionStatus.map { status ->
             when (status) {

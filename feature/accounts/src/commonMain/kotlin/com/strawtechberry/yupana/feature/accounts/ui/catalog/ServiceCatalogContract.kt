@@ -11,13 +11,19 @@ data class ServiceCatalogUiState(
     val services: List<Service> = emptyList(),
     val isLoading: Boolean = false,
     val error: String? = null,
-    val showCreateDialog: Boolean = false,
-    val newServiceName: String = "",
-    val newServiceColor: String = servicePresetColors.first(),
-    val isCreating: Boolean = false,
-    val createError: String? = null,
+    // Create/edit dialog: shared by both flows, `editingServiceId == null` means "creating".
+    val showFormDialog: Boolean = false,
+    val editingServiceId: String? = null,
+    val formName: String = "",
+    val formColor: String = servicePresetColors.first(),
+    val isSavingForm: Boolean = false,
+    val formError: String? = null,
+    // Delete confirmation.
+    val deletingServiceId: String? = null,
+    val isDeleting: Boolean = false,
+    val deleteError: String? = null,
 ) : UiState {
-    val isCreateEnabled: Boolean get() = newServiceName.isNotBlank() && !isCreating
+    val isFormEnabled: Boolean get() = formName.isNotBlank() && !isSavingForm
 }
 
 /** User actions on the service catalog. */
@@ -25,10 +31,14 @@ sealed interface ServiceCatalogIntent : UiIntent {
     data object Retry : ServiceCatalogIntent
     data class ServiceClicked(val id: String) : ServiceCatalogIntent
     data object AddServiceClicked : ServiceCatalogIntent
-    data object DismissCreateDialog : ServiceCatalogIntent
-    data class NewServiceNameChanged(val value: String) : ServiceCatalogIntent
-    data class NewServiceColorChanged(val value: String) : ServiceCatalogIntent
-    data object ConfirmCreateService : ServiceCatalogIntent
+    data class EditServiceClicked(val service: Service) : ServiceCatalogIntent
+    data object DismissFormDialog : ServiceCatalogIntent
+    data class FormNameChanged(val value: String) : ServiceCatalogIntent
+    data class FormColorChanged(val value: String) : ServiceCatalogIntent
+    data object ConfirmSaveService : ServiceCatalogIntent
+    data class DeleteServiceClicked(val id: String) : ServiceCatalogIntent
+    data object DismissDeleteConfirm : ServiceCatalogIntent
+    data object ConfirmDeleteService : ServiceCatalogIntent
 }
 
 /** One-time effects of the service catalog. */

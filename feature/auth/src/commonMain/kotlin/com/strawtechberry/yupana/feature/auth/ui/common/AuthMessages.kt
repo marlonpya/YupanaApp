@@ -9,5 +9,7 @@ fun errorMessage(t: Throwable): String = when ((t as? AuthException)?.error) {
     AuthError.EmailAlreadyRegistered -> "Ese correo ya está registrado"
     AuthError.EmailNotConfirmed -> "Confirma tu correo antes de iniciar sesión"
     AuthError.NoConnection -> "Sin conexión. Revisa tu internet e inténtalo de nuevo"
+    AuthError.InvalidCurrentPassword -> "La contraseña actual es incorrecta"
+    AuthError.WeakPassword -> "La nueva contraseña es muy corta o débil"
     is AuthError.Unknown, null -> "Algo salió mal. Inténtalo de nuevo"
 }

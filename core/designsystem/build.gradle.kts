@@ -40,6 +40,7 @@ kotlin {
             // Íconos (mail/lock/visibility…) para campos y pantallas. R8 descarta los no usados.
             api(compose.materialIconsExtended)
             api(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
         }
     }
 }

@@ -13,4 +13,14 @@ interface ServiceRepository {
 
     /** Creates a custom service owned by the admin. */
     suspend fun createService(name: String, color: String?): Result<Service>
+
+    /** Updates one of the admin's own custom services (globals can't be edited; RLS enforces this too). */
+    suspend fun updateService(id: String, name: String, color: String?): Result<Service>
+
+    /**
+     * Deletes one of the admin's own custom services. Fails with
+     * [com.strawtechberry.yupana.feature.accounts.domain.model.AccountsError.ServiceInUse] if an
+     * account still references it (`account_service_id_fkey` is `ON DELETE RESTRICT`).
+     */
+    suspend fun deleteService(id: String): Result<Unit>
 }

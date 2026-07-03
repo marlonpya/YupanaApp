@@ -35,6 +35,23 @@ class DefaultServiceRepository(
                 .toDomain()
         }
 
+    override suspend fun updateService(id: String, name: String, color: String?): Result<Service> =
+        execute {
+            postgrest.from("streaming_service")
+                .update(ServiceUpdateDto(name = name, color = color)) {
+                    select()
+                    filter { eq("id", id) }
+                }
+                .decodeSingle<ServiceDto>()
+                .toDomain()
+        }
+
+    override suspend fun deleteService(id: String): Result<Unit> =
+        execute {
+            postgrest.from("streaming_service").delete { filter { eq("id", id) } }
+            Unit
+        }
+
     private suspend fun <T> execute(block: suspend () -> T): Result<T> = try {
         Result.success(block())
     } catch (e: CancellationException) {

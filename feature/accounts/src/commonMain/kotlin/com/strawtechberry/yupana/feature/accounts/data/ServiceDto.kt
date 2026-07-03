@@ -25,6 +25,13 @@ data class ServiceInsertDto(
     @SerialName("owner_id") val ownerId: String,
 )
 
+/** Update body for one of the admin's own custom services (`id` goes in the filter, not the body). */
+@Serializable
+data class ServiceUpdateDto(
+    val name: String,
+    val color: String? = null,
+)
+
 fun ServiceDto.toDomain(): Service = Service(
     id = id,
     name = name,

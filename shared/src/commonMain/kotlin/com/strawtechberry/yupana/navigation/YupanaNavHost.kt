@@ -22,6 +22,8 @@ import com.strawtechberry.yupana.feature.clients.ui.detail.ClientDetailRoute
 import com.strawtechberry.yupana.feature.clients.ui.form.ClientFormRoute
 import com.strawtechberry.yupana.feature.dashboard.ui.allexpirations.AllExpirationsRoute
 import com.strawtechberry.yupana.feature.dashboard.ui.detail.AssignmentDetailRoute
+import com.strawtechberry.yupana.feature.settings.ui.account.MyAccountRoute
+import com.strawtechberry.yupana.feature.settings.ui.notifications.NotificationPreferencesRoute
 import com.strawtechberry.yupana.ui.MainScaffold
 
 /**
@@ -91,6 +93,8 @@ fun YupanaNavHost() {
                 onCreateAssignment = { navController.navigate(YupanaDestinations.ASSIGN_PROFILE_ROUTE) },
                 onOpenAssignmentDetail = { id -> navController.navigate("${YupanaDestinations.ASSIGNMENT_DETAIL_ROUTE}/$id") },
                 onOpenAllExpirations = { navController.navigate(YupanaDestinations.ALL_EXPIRATIONS) },
+                onOpenNotificationPreferences = { navController.navigate(YupanaDestinations.NOTIFICATION_PREFERENCES) },
+                onOpenMyAccount = { navController.navigate(YupanaDestinations.MY_ACCOUNT) },
             )
         }
 
@@ -255,6 +259,14 @@ fun YupanaNavHost() {
                 onBack = { navController.popBackStack() },
                 onOpenDetail = { id -> navController.navigate("${YupanaDestinations.ASSIGNMENT_DETAIL_ROUTE}/$id") },
             )
+        }
+
+        composable(YupanaDestinations.NOTIFICATION_PREFERENCES) {
+            NotificationPreferencesRoute(onBack = { navController.popBackStack() })
+        }
+
+        composable(YupanaDestinations.MY_ACCOUNT) {
+            MyAccountRoute(onBack = { navController.popBackStack() })
         }
     }
 }
