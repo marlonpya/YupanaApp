@@ -45,4 +45,7 @@ object YupanaDestinations {
     const val MOVE_MEMBER = "$MOVE_MEMBER_ROUTE/{$MOVE_MEMBER_ARG_ID}"
 
     const val ALL_EXPIRATIONS = "all_expirations"
+
+    const val NOTIFICATION_PREFERENCES = "notification_preferences"
+    const val MY_ACCOUNT = "my_account"
 }

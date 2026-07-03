@@ -6,11 +6,13 @@ import com.strawtechberry.yupana.feature.accounts.domain.AccountRepository
 import com.strawtechberry.yupana.feature.accounts.domain.ServiceRepository
 import com.strawtechberry.yupana.feature.accounts.domain.usecase.CreateAccountUseCase
 import com.strawtechberry.yupana.feature.accounts.domain.usecase.CreateServiceUseCase
+import com.strawtechberry.yupana.feature.accounts.domain.usecase.DeleteServiceUseCase
 import com.strawtechberry.yupana.feature.accounts.domain.usecase.GetAccountGroupsUseCase
 import com.strawtechberry.yupana.feature.accounts.domain.usecase.GetAccountProfilesUseCase
 import com.strawtechberry.yupana.feature.accounts.domain.usecase.GetAccountUseCase
 import com.strawtechberry.yupana.feature.accounts.domain.usecase.GetServicesUseCase
 import com.strawtechberry.yupana.feature.accounts.domain.usecase.UpdateAccountUseCase
+import com.strawtechberry.yupana.feature.accounts.domain.usecase.UpdateServiceUseCase
 import com.strawtechberry.yupana.feature.accounts.ui.catalog.ServiceCatalogViewModel
 import com.strawtechberry.yupana.feature.accounts.ui.detail.AccountDetailViewModel
 import com.strawtechberry.yupana.feature.accounts.ui.form.AccountFormViewModel
@@ -30,6 +32,8 @@ val accountsModule = module {
 
     factoryOf(::GetServicesUseCase)
     factoryOf(::CreateServiceUseCase)
+    factoryOf(::UpdateServiceUseCase)
+    factoryOf(::DeleteServiceUseCase)
     factoryOf(::GetAccountGroupsUseCase)
     factoryOf(::GetAccountUseCase)
     factoryOf(::GetAccountProfilesUseCase)

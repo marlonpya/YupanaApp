@@ -7,6 +7,7 @@ import com.strawtechberry.yupana.feature.assignment.di.assignmentModule
 import com.strawtechberry.yupana.feature.auth.di.authModule
 import com.strawtechberry.yupana.feature.clients.di.clientsModule
 import com.strawtechberry.yupana.feature.dashboard.di.dashboardModule
+import com.strawtechberry.yupana.feature.settings.di.settingsModule
 import org.koin.core.module.Module
 
 /**
@@ -20,4 +21,5 @@ fun appModules(config: AppConfig): List<Module> = listOf(
     accountsModule,
     assignmentModule,
     dashboardModule,
+    settingsModule,
 )

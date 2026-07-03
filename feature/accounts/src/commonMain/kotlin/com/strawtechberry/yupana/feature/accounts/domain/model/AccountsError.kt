@@ -7,6 +7,8 @@ package com.strawtechberry.yupana.feature.accounts.domain.model
  */
 sealed interface AccountsError {
     data object NoConnection : AccountsError
+    data object DuplicateServiceName : AccountsError
+    data object ServiceInUse : AccountsError
     data class Unknown(val detail: String?) : AccountsError
 }
 

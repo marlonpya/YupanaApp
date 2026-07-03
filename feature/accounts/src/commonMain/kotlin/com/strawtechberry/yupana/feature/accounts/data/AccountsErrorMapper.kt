@@ -8,7 +8,19 @@ import com.strawtechberry.yupana.feature.accounts.domain.model.AccountsError
  */
 internal fun mapAccountsError(t: Throwable): AccountsError {
     val text = causeChainText(t)
-    return if (isNetworkError(text)) AccountsError.NoConnection else AccountsError.Unknown(t.message)
+    return when {
+        isNetworkError(text) -> AccountsError.NoConnection
+
+        // uq_service_owner_name: unique (owner_id, lower(name)) violation on create/update.
+        text.contains("duplicate key") || text.contains("unique constraint") || text.contains("23505") ->
+            AccountsError.DuplicateServiceName
+
+        // account_service_id_fkey ON DELETE RESTRICT: service still used by an account.
+        text.contains("foreign key") || text.contains("still referenced") || text.contains("23503") ->
+            AccountsError.ServiceInUse
+
+        else -> AccountsError.Unknown(t.message)
+    }
 }
 
 /** Joins message and class names of the whole cause chain, lowercased. */

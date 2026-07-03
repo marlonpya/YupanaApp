@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,6 +21,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -45,7 +48,7 @@ import com.strawtechberry.yupana.feature.accounts.ui.common.parseServiceColor
 import com.strawtechberry.yupana.feature.accounts.ui.common.servicePresetColors
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-/** Service catalog screen (stateless): browses global + own services, can create a custom one. */
+/** Service catalog screen (stateless): browses global + own services, can create/edit/delete a custom one. */
 @Composable
 fun ServiceCatalogScreen(
     picker: Boolean,
@@ -56,7 +59,7 @@ fun ServiceCatalogScreen(
     val colors = YupanaTheme.colors
     val spacing = YupanaTheme.spacing
 
-    Column(modifier = Modifier.fillMaxSize().background(colors.fondo)) {
+    Column(modifier = Modifier.fillMaxSize().background(colors.fondo).navigationBarsPadding()) {
         YupanaTopBar(
             title = if (picker) "Selecciona un servicio" else "Catálogo de servicios",
             onBack = onBack,
@@ -92,13 +95,23 @@ fun ServiceCatalogScreen(
                     if (globalServices.isNotEmpty()) {
                         item { SectionLabel("Globales") }
                         items(globalServices, key = { it.id }) { service ->
-                            ServiceRow(service = service, onClick = { onIntent(ServiceCatalogIntent.ServiceClicked(service.id)) })
+                            ServiceRow(
+                                service = service,
+                                onClick = { onIntent(ServiceCatalogIntent.ServiceClicked(service.id)) },
+                                onEdit = null,
+                                onDelete = null,
+                            )
                         }
                     }
                     if (ownServices.isNotEmpty()) {
                         item { SectionLabel("Tus servicios") }
                         items(ownServices, key = { it.id }) { service ->
-                            ServiceRow(service = service, onClick = { onIntent(ServiceCatalogIntent.ServiceClicked(service.id)) })
+                            ServiceRow(
+                                service = service,
+                                onClick = { onIntent(ServiceCatalogIntent.ServiceClicked(service.id)) },
+                                onEdit = { onIntent(ServiceCatalogIntent.EditServiceClicked(service)) },
+                                onDelete = { onIntent(ServiceCatalogIntent.DeleteServiceClicked(service.id)) },
+                            )
                         }
                     }
                 }
@@ -106,8 +119,12 @@ fun ServiceCatalogScreen(
         }
     }
 
-    if (state.showCreateDialog) {
-        CreateServiceDialog(state = state, onIntent = onIntent)
+    if (state.showFormDialog) {
+        ServiceFormDialog(state = state, onIntent = onIntent)
+    }
+
+    if (state.deletingServiceId != null) {
+        DeleteServiceDialog(state = state, onIntent = onIntent)
     }
 }
 
@@ -122,7 +139,12 @@ private fun SectionLabel(text: String) {
 }
 
 @Composable
-private fun ServiceRow(service: Service, onClick: () -> Unit) {
+private fun ServiceRow(
+    service: Service,
+    onClick: () -> Unit,
+    onEdit: (() -> Unit)?,
+    onDelete: (() -> Unit)?,
+) {
     val colors = YupanaTheme.colors
     YupanaCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -131,26 +153,42 @@ private fun ServiceRow(service: Service, onClick: () -> Unit) {
                 color = parseServiceColor(service.color) ?: colors.marca,
             )
             Spacer(Modifier.width(YupanaTheme.spacing.md))
-            Text(service.name, style = YupanaTheme.typography.subtitle, color = colors.textoPrincipal)
+            Text(
+                service.name,
+                style = YupanaTheme.typography.subtitle,
+                color = colors.textoPrincipal,
+                modifier = Modifier.weight(1f),
+            )
+            if (onEdit != null) {
+                IconButton(onClick = onEdit) {
+                    Icon(Icons.Rounded.Edit, contentDescription = "Editar servicio", tint = colors.textoSecundario)
+                }
+            }
+            if (onDelete != null) {
+                IconButton(onClick = onDelete) {
+                    Icon(Icons.Rounded.Delete, contentDescription = "Eliminar servicio", tint = colors.peligro)
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun CreateServiceDialog(
+private fun ServiceFormDialog(
     state: ServiceCatalogUiState,
     onIntent: (ServiceCatalogIntent) -> Unit,
 ) {
     val colors = YupanaTheme.colors
     val spacing = YupanaTheme.spacing
+    val isEditing = state.editingServiceId != null
     AlertDialog(
-        onDismissRequest = { onIntent(ServiceCatalogIntent.DismissCreateDialog) },
-        title = { Text("Nuevo servicio", color = colors.textoPrincipal) },
+        onDismissRequest = { onIntent(ServiceCatalogIntent.DismissFormDialog) },
+        title = { Text(if (isEditing) "Editar servicio" else "Nuevo servicio", color = colors.textoPrincipal) },
         text = {
             Column {
                 YupanaTextField(
-                    value = state.newServiceName,
-                    onValueChange = { onIntent(ServiceCatalogIntent.NewServiceNameChanged(it)) },
+                    value = state.formName,
+                    onValueChange = { onIntent(ServiceCatalogIntent.FormNameChanged(it)) },
                     label = "Nombre",
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -160,7 +198,7 @@ private fun CreateServiceDialog(
                 Row(horizontalArrangement = Arrangement.spacedBy(spacing.sm)) {
                     servicePresetColors.forEach { hex ->
                         val swatchColor = parseServiceColor(hex) ?: colors.marca
-                        val selected = state.newServiceColor == hex
+                        val selected = state.formColor == hex
                         Box(
                             modifier = Modifier
                                 .size(32.dp)
@@ -170,29 +208,69 @@ private fun CreateServiceDialog(
                                     if (selected) Modifier.border(2.dp, colors.textoPrincipal, CircleShape)
                                     else Modifier
                                 )
-                                .clickable { onIntent(ServiceCatalogIntent.NewServiceColorChanged(hex)) },
+                                .clickable { onIntent(ServiceCatalogIntent.FormColorChanged(hex)) },
                         )
                     }
                 }
-                if (state.createError != null) {
+                if (state.formError != null) {
                     Spacer(Modifier.height(spacing.md))
-                    Text(state.createError, color = colors.peligro, style = YupanaTheme.typography.body, textAlign = TextAlign.Center)
+                    Text(state.formError, color = colors.peligro, style = YupanaTheme.typography.body, textAlign = TextAlign.Center)
                 }
             }
         },
         confirmButton = {
             YupanaButton(
-                text = "Crear",
-                onClick = { onIntent(ServiceCatalogIntent.ConfirmCreateService) },
-                enabled = state.isCreateEnabled,
-                loading = state.isCreating,
+                text = if (isEditing) "Guardar" else "Crear",
+                onClick = { onIntent(ServiceCatalogIntent.ConfirmSaveService) },
+                enabled = state.isFormEnabled,
+                loading = state.isSavingForm,
             )
         },
         dismissButton = {
             YupanaButton(
                 text = "Cancelar",
                 variant = YupanaButtonVariant.Text,
-                onClick = { onIntent(ServiceCatalogIntent.DismissCreateDialog) },
+                onClick = { onIntent(ServiceCatalogIntent.DismissFormDialog) },
+            )
+        },
+    )
+}
+
+@Composable
+private fun DeleteServiceDialog(
+    state: ServiceCatalogUiState,
+    onIntent: (ServiceCatalogIntent) -> Unit,
+) {
+    val colors = YupanaTheme.colors
+    val spacing = YupanaTheme.spacing
+    AlertDialog(
+        onDismissRequest = { onIntent(ServiceCatalogIntent.DismissDeleteConfirm) },
+        title = { Text("Eliminar servicio", color = colors.textoPrincipal) },
+        text = {
+            Column {
+                Text(
+                    "¿Seguro que quieres eliminar este servicio? Esta acción no se puede deshacer.",
+                    color = colors.textoSecundario,
+                )
+                if (state.deleteError != null) {
+                    Spacer(Modifier.height(spacing.md))
+                    Text(state.deleteError, color = colors.peligro, style = YupanaTheme.typography.body, textAlign = TextAlign.Center)
+                }
+            }
+        },
+        confirmButton = {
+            YupanaButton(
+                text = "Eliminar",
+                variant = YupanaButtonVariant.Destructive,
+                onClick = { onIntent(ServiceCatalogIntent.ConfirmDeleteService) },
+                loading = state.isDeleting,
+            )
+        },
+        dismissButton = {
+            YupanaButton(
+                text = "Cancelar",
+                variant = YupanaButtonVariant.Text,
+                onClick = { onIntent(ServiceCatalogIntent.DismissDeleteConfirm) },
             )
         },
     )
