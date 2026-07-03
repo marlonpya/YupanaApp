@@ -17,13 +17,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.strawtechberry.yupana.core.designsystem.component.YupanaAssignmentCard
 import com.strawtechberry.yupana.core.designsystem.component.YupanaAvatar
-import com.strawtechberry.yupana.core.designsystem.component.YupanaEstado
 import com.strawtechberry.yupana.core.designsystem.component.YupanaStatCard
 import com.strawtechberry.yupana.core.designsystem.state.YupanaEmptyState
 import com.strawtechberry.yupana.core.designsystem.state.YupanaErrorState
 import com.strawtechberry.yupana.core.designsystem.state.YupanaLoadingState
 import com.strawtechberry.yupana.core.designsystem.theme.YupanaTheme
 import com.strawtechberry.yupana.feature.assignment.domain.model.UpcomingExpiration
+import com.strawtechberry.yupana.feature.dashboard.ui.common.chipLabelFor
+import com.strawtechberry.yupana.feature.dashboard.ui.common.estadoFor
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /** Dashboard "Próximos a vencer" (stateless): saludo, métricas y lista por urgencia. */
@@ -87,11 +88,23 @@ fun DashboardScreen(
                 }
 
                 item {
-                    Text(
-                        text = "Próximos a vencer",
-                        style = YupanaTheme.typography.subtitle,
-                        color = colors.textoPrincipal,
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text = "Próximos a vencer",
+                            style = YupanaTheme.typography.subtitle,
+                            color = colors.textoPrincipal,
+                        )
+                        Text(
+                            text = "Ver todos",
+                            style = YupanaTheme.typography.label,
+                            color = colors.acento,
+                            modifier = Modifier.clickable { onIntent(DashboardIntent.SeeAllClicked) },
+                        )
+                    }
                 }
 
                 if (state.expirations.isEmpty()) {
@@ -122,19 +135,6 @@ fun DashboardScreen(
             }
         }
     }
-}
-
-private fun estadoFor(daysLeft: Int): YupanaEstado = when {
-    daysLeft <= 0 -> YupanaEstado.Hoy
-    daysLeft <= 7 -> YupanaEstado.Pronto
-    else -> YupanaEstado.AlDia
-}
-
-private fun chipLabelFor(daysLeft: Int): String = when {
-    daysLeft < 0 -> "Vencido"
-    daysLeft == 0 -> "Hoy"
-    daysLeft == 1 -> "Mañana"
-    else -> "$daysLeft días"
 }
 
 @Preview

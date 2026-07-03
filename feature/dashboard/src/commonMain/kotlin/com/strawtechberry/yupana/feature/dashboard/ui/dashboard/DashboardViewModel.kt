@@ -15,6 +15,7 @@ class DashboardViewModel(
             DashboardIntent.Retry -> load()
             is DashboardIntent.ExpirationClicked -> sendEvent(DashboardEvent.NavigateToDetail(intent.assignmentId))
             DashboardIntent.NewAssignmentClicked -> sendEvent(DashboardEvent.NavigateToNewAssignment)
+            DashboardIntent.SeeAllClicked -> sendEvent(DashboardEvent.NavigateToAllExpirations)
         }
     }
 

@@ -13,10 +13,14 @@ import com.strawtechberry.yupana.feature.accounts.ui.catalog.ServiceCatalogRoute
 import com.strawtechberry.yupana.feature.accounts.ui.detail.AccountDetailRoute
 import com.strawtechberry.yupana.feature.accounts.ui.form.AccountFormRoute
 import com.strawtechberry.yupana.feature.assignment.ui.assign.AssignRoute
+import com.strawtechberry.yupana.feature.assignment.ui.move.MoveMemberRoute
 import com.strawtechberry.yupana.feature.auth.ui.login.LoginRoute
 import com.strawtechberry.yupana.feature.auth.ui.register.RegisterRoute
+import com.strawtechberry.yupana.feature.auth.ui.resetpassword.ResetPasswordRoute
 import com.strawtechberry.yupana.feature.auth.ui.splash.SplashRoute
+import com.strawtechberry.yupana.feature.clients.ui.detail.ClientDetailRoute
 import com.strawtechberry.yupana.feature.clients.ui.form.ClientFormRoute
+import com.strawtechberry.yupana.feature.dashboard.ui.allexpirations.AllExpirationsRoute
 import com.strawtechberry.yupana.feature.dashboard.ui.detail.AssignmentDetailRoute
 import com.strawtechberry.yupana.ui.MainScaffold
 
@@ -53,7 +57,7 @@ fun YupanaNavHost() {
                     }
                 },
                 onNavigateToRegister = { navController.navigate(YupanaDestinations.REGISTER) },
-                onForgotPassword = { /* Placeholder: la pantalla real llega en una fase posterior. */ },
+                onForgotPassword = { navController.navigate(YupanaDestinations.RESET_PASSWORD) },
             )
         }
 
@@ -68,6 +72,10 @@ fun YupanaNavHost() {
             )
         }
 
+        composable(YupanaDestinations.RESET_PASSWORD) {
+            ResetPasswordRoute(onBack = { navController.popBackStack() })
+        }
+
         composable(YupanaDestinations.DASHBOARD) {
             MainScaffold(
                 onCerrarSesion = {
@@ -76,14 +84,13 @@ fun YupanaNavHost() {
                     }
                 },
                 onCreateClient = { navController.navigate(YupanaDestinations.CLIENT_FORM_ROUTE) },
-                onEditClient = { id ->
-                    navController.navigate("${YupanaDestinations.CLIENT_FORM_ROUTE}?${YupanaDestinations.CLIENT_FORM_ARG_ID}=$id")
-                },
+                onOpenClientDetail = { id -> navController.navigate("${YupanaDestinations.CLIENT_DETAIL_ROUTE}/$id") },
                 onCreateAccount = { navController.navigate(YupanaDestinations.ACCOUNT_FORM_ROUTE) },
                 onOpenAccountDetail = { id -> navController.navigate("${YupanaDestinations.ACCOUNT_DETAIL_ROUTE}/$id") },
                 onOpenServiceCatalog = { navController.navigate(YupanaDestinations.SERVICE_CATALOG_ROUTE) },
                 onCreateAssignment = { navController.navigate(YupanaDestinations.ASSIGN_PROFILE_ROUTE) },
                 onOpenAssignmentDetail = { id -> navController.navigate("${YupanaDestinations.ASSIGNMENT_DETAIL_ROUTE}/$id") },
+                onOpenAllExpirations = { navController.navigate(YupanaDestinations.ALL_EXPIRATIONS) },
             )
         }
 
@@ -102,6 +109,22 @@ fun YupanaNavHost() {
                 onSaved = { navController.popBackStack() },
                 onBack = { navController.popBackStack() },
             )
+        }
+
+        composable(
+            route = YupanaDestinations.CLIENT_DETAIL,
+            arguments = listOf(navArgument(YupanaDestinations.CLIENT_DETAIL_ARG_ID) { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val clientId = backStackEntry.arguments?.read { getString(YupanaDestinations.CLIENT_DETAIL_ARG_ID) }
+            if (clientId != null) {
+                ClientDetailRoute(
+                    clientId = clientId,
+                    onBack = { navController.popBackStack() },
+                    onEditClient = { id ->
+                        navController.navigate("${YupanaDestinations.CLIENT_FORM_ROUTE}?${YupanaDestinations.CLIENT_FORM_ARG_ID}=$id")
+                    },
+                )
+            }
         }
 
         composable(
@@ -207,8 +230,31 @@ fun YupanaNavHost() {
                     assignmentId = assignmentId,
                     onBack = { navController.popBackStack() },
                     onActionCompleted = { navController.popBackStack() },
+                    onMoveMember = { id -> navController.navigate("${YupanaDestinations.MOVE_MEMBER_ROUTE}/$id") },
                 )
             }
+        }
+
+        composable(
+            route = YupanaDestinations.MOVE_MEMBER,
+            arguments = listOf(navArgument(YupanaDestinations.MOVE_MEMBER_ARG_ID) { type = NavType.StringType }),
+        ) { backStackEntry ->
+            val assignmentId = backStackEntry.arguments?.read { getString(YupanaDestinations.MOVE_MEMBER_ARG_ID) }
+            if (assignmentId != null) {
+                MoveMemberRoute(
+                    assignmentId = assignmentId,
+                    onBack = { navController.popBackStack() },
+                    onMoved = { navController.popBackStack(YupanaDestinations.DASHBOARD, inclusive = false) },
+                    onCreateAccount = { navController.navigate(YupanaDestinations.ACCOUNT_FORM_ROUTE) },
+                )
+            }
+        }
+
+        composable(YupanaDestinations.ALL_EXPIRATIONS) {
+            AllExpirationsRoute(
+                onBack = { navController.popBackStack() },
+                onOpenDetail = { id -> navController.navigate("${YupanaDestinations.ASSIGNMENT_DETAIL_ROUTE}/$id") },
+            )
         }
     }
 }

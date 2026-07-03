@@ -108,11 +108,10 @@ fun AssignmentDetailScreen(
                     variant = YupanaButtonVariant.Destructive,
                 )
                 YupanaButton(
-                    text = "Mover a otra cuenta (Próximamente)",
-                    onClick = {},
+                    text = "Mover a otra cuenta",
+                    onClick = { onIntent(AssignmentDetailIntent.MoveClicked) },
                     modifier = Modifier.fillMaxWidth(),
                     variant = YupanaButtonVariant.Text,
-                    enabled = false,
                 )
             }
         }

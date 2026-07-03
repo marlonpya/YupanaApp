@@ -23,6 +23,9 @@ interface AuthRepository {
     /** Session already loaded, or `null` if there isn't one. */
     suspend fun currentSession(): AuthSession?
 
+    /** Sends a password recovery email. Supabase's hosted page handles setting the new password. */
+    suspend fun resetPassword(email: String): Result<Unit>
+
     /** Observable session state (source of the Splash routing). */
     fun observeSessionState(): Flow<SessionState>
 

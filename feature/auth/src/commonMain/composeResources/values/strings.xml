@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reset_password_title">Recuperar contraseña</string>
+    <string name="reset_password_subtitle">Ingresa tu correo y te enviaremos instrucciones para restablecer tu contraseña.</string>
+    <string name="reset_password_email_label">Correo electrónico</string>
+    <string name="reset_password_submit">Enviar instrucciones</string>
+    <string name="reset_password_success_title">Revisa tu correo</string>
+    <string name="reset_password_success_message">Te enviamos un enlace para restablecer tu contraseña. Sigue las instrucciones del correo para continuar.</string>
+    <string name="reset_password_back_to_login">Volver a iniciar sesión</string>
+</resources>

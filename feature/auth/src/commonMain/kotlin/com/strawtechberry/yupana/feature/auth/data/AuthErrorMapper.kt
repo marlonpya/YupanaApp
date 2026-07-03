@@ -3,7 +3,7 @@ package com.strawtechberry.yupana.feature.auth.data
 import com.strawtechberry.yupana.feature.auth.domain.model.AuthError
 
 /** Operation context to disambiguate generic errors (a 400 on login = credentials). */
-internal enum class AuthOperation { SignIn, Register }
+internal enum class AuthOperation { SignIn, Register, ResetPassword }
 
 /**
  * Translates supabase-kt/Ktor exceptions into domain [AuthError]. Relies on the error

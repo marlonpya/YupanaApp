@@ -26,6 +26,7 @@ import com.strawtechberry.yupana.core.designsystem.component.YupanaKhipuMotif
 import com.strawtechberry.yupana.core.designsystem.component.YupanaTextField
 import com.strawtechberry.yupana.core.designsystem.theme.YupanaTheme
 import com.strawtechberry.yupana.feature.auth.ui.common.AuthScreenContainer
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 /** Login screen (stateless). Receives the state and emits intents via [onIntent]. */
 @Composable
@@ -115,4 +116,13 @@ fun LoginScreen(
         }
         Spacer(Modifier.height(spacing.lg))
     }
+}
+
+@Preview
+@Composable
+private fun LoginScreenPreview() {
+    LoginScreen(
+        state = LoginUiState(),
+        onIntent = {}
+    )
 }

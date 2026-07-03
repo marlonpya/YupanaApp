@@ -1,6 +1,7 @@
 package com.strawtechberry.yupana.feature.clients.domain
 
 import com.strawtechberry.yupana.feature.clients.domain.model.Client
+import com.strawtechberry.yupana.feature.clients.domain.model.ClientAssignment
 
 /**
  * Client port. The implementation ([data.DefaultClientRepository]) uses supabase-kt
@@ -17,6 +18,9 @@ interface ClientRepository {
 
     /** A single client by id. */
     suspend fun getClient(id: String): Result<Client>
+
+    /** All of a client's assignments (active and cancelled), ordered by due date. */
+    suspend fun getClientAssignments(clientId: String): Result<List<ClientAssignment>>
 
     /** Creates a new client. */
     suspend fun createClient(name: String, contact: String?, notes: String?): Result<Client>

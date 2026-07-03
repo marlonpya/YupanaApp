@@ -14,6 +14,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun DashboardRoute(
     onOpenDetail: (String) -> Unit,
     onCreateAssignment: () -> Unit,
+    onOpenAllExpirations: () -> Unit,
     viewModel: DashboardViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -25,6 +26,7 @@ fun DashboardRoute(
             when (event) {
                 is DashboardEvent.NavigateToDetail -> onOpenDetail(event.assignmentId)
                 DashboardEvent.NavigateToNewAssignment -> onCreateAssignment()
+                DashboardEvent.NavigateToAllExpirations -> onOpenAllExpirations()
             }
         }
     }

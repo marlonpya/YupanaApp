@@ -12,6 +12,7 @@ fun AssignmentDetailRoute(
     assignmentId: String,
     onBack: () -> Unit,
     onActionCompleted: () -> Unit,
+    onMoveMember: (String) -> Unit,
     viewModel: AssignmentDetailViewModel = koinViewModel(key = assignmentId) { parametersOf(assignmentId) },
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -21,6 +22,7 @@ fun AssignmentDetailRoute(
             when (event) {
                 AssignmentDetailEvent.NavigateBack -> onBack()
                 AssignmentDetailEvent.ActionCompleted -> onActionCompleted()
+                is AssignmentDetailEvent.NavigateToMove -> onMoveMember(event.assignmentId)
             }
         }
     }

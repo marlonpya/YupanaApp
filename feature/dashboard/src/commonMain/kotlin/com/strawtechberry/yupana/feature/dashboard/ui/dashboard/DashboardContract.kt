@@ -21,10 +21,12 @@ sealed interface DashboardIntent : UiIntent {
     data object Retry : DashboardIntent
     data class ExpirationClicked(val assignmentId: String) : DashboardIntent
     data object NewAssignmentClicked : DashboardIntent
+    data object SeeAllClicked : DashboardIntent
 }
 
 /** One-time effects of the dashboard. */
 sealed interface DashboardEvent : UiEvent {
     data class NavigateToDetail(val assignmentId: String) : DashboardEvent
     data object NavigateToNewAssignment : DashboardEvent
+    data object NavigateToAllExpirations : DashboardEvent
 }

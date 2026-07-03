@@ -1,5 +1,6 @@
 package com.strawtechberry.yupana.feature.dashboard.di
 
+import com.strawtechberry.yupana.feature.dashboard.ui.allexpirations.AllExpirationsViewModel
 import com.strawtechberry.yupana.feature.dashboard.ui.dashboard.DashboardViewModel
 import com.strawtechberry.yupana.feature.dashboard.ui.detail.AssignmentDetailViewModel
 import org.koin.core.module.dsl.viewModel
@@ -12,6 +13,7 @@ import org.koin.dsl.module
  */
 val dashboardModule = module {
     viewModelOf(::DashboardViewModel)
+    viewModelOf(::AllExpirationsViewModel)
 
     viewModel { (assignmentId: String) ->
         AssignmentDetailViewModel(assignmentId, get(), get(), get(), get())

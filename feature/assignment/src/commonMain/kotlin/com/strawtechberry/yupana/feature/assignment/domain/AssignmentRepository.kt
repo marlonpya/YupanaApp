@@ -1,6 +1,7 @@
 package com.strawtechberry.yupana.feature.assignment.domain
 
 import com.strawtechberry.yupana.feature.assignment.domain.model.Assignment
+import com.strawtechberry.yupana.feature.assignment.domain.model.AssignmentMoveContext
 import com.strawtechberry.yupana.feature.assignment.domain.model.UpcomingExpiration
 
 /**
@@ -30,4 +31,10 @@ interface AssignmentRepository {
 
     /** Soft-cancels the assignment (`status = 'cancelled'`); the profile becomes free again. */
     suspend fun liberateAssignment(assignmentId: String): Result<Unit>
+
+    /** Where the assignment's profile currently lives — used to find same-service destination accounts. */
+    suspend fun getAssignmentMoveContext(assignmentId: String): Result<AssignmentMoveContext>
+
+    /** Moves the assignment to another profile, keeping price/due date. Same unique-index race as [assignProfile]. */
+    suspend fun moveAssignment(assignmentId: String, newProfileId: String): Result<Unit>
 }

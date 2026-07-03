@@ -2,8 +2,10 @@ package com.strawtechberry.yupana.feature.clients.data
 
 import com.strawtechberry.yupana.feature.clients.domain.ClientRepository
 import com.strawtechberry.yupana.feature.clients.domain.model.Client
+import com.strawtechberry.yupana.feature.clients.domain.model.ClientAssignment
 import com.strawtechberry.yupana.feature.clients.domain.model.ClientException
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.CancellationException
 
@@ -38,6 +40,17 @@ class DefaultClientRepository(private val postgrest: Postgrest) : ClientReposito
             postgrest.from("client").select {
                 filter { eq("id", id) }
             }.decodeSingle<ClientDto>().toDomain()
+        }
+
+    override suspend fun getClientAssignments(clientId: String): Result<List<ClientAssignment>> =
+        execute {
+            postgrest.from("assignment")
+                .select(Columns.raw("*, profile(label, account(alias, streaming_service(name)))")) {
+                    filter { eq("client_id", clientId) }
+                    order(column = "due_date", order = Order.ASCENDING)
+                }
+                .decodeList<ClientAssignmentDto>()
+                .map { it.toDomain() }
         }
 
     override suspend fun createClient(name: String, contact: String?, notes: String?): Result<Client> =

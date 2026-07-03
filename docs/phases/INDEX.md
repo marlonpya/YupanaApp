@@ -20,38 +20,55 @@
 
 ---
 
-## Estado global
+## Estado global — Producto completo (19 pantallas + push)
 
-| # | Fase / Grupo | Archivo | Estado |
+### Bloque A · Cimientos técnicos
+
+| # | Fase | Archivo | Estado |
 |---|---|---|---|
-| 1 | Esqueleto + librerías | `phase-1-scaffold.md` | ✅ hecho |
-| 2 | Design System | `phase-2-designsystem.md` | ✅ hecho |
-| 3 | Grupo 1 — Auth | `group-1-auth.md` | ✅ hecho |
-| 4 | Grupo 2 — Clientes | `group-2-clients.md` | ✅ hecho |
-| 5 | Grupo 3 — Cuentas | `group-3-accounts.md` | ✅ hecho |
-| 6 | Grupo 4 — Asignar perfil | `group-4-assign.md` | ✅ hecho |
-| 7 | Grupo 5 — Dashboard | `group-5-dashboard.md` | 🟡 en curso (código completo en `feature/dashboard`, pendiente merge a `develop` y validación end-to-end) |
+| 1 | Esqueleto + librerías | `phase-1-scaffold.md` | ⬜ pendiente |
+| 2 | Design System | `phase-2-designsystem.md` | ⬜ pendiente |
+
+### Bloque B · MVP (11 pantallas, usable de punta a punta)
+
+| # | Grupo | Archivo | Pantallas | Estado |
+|---|---|---|---|---|
+| 3 | Auth | `group-1-auth.md` | Splash, Login, Registro | ⬜ pendiente |
+| 4 | Clientes | `group-2-clients.md` | Lista, Crear/Editar | ⬜ pendiente |
+| 5 | Cuentas | `group-3-accounts.md` | Mis cuentas, Detalle, Crear/Editar, Catálogo | ⬜ pendiente |
+| 6 | Asignar perfil | `group-4-assign.md` | Asignar | ⬜ pendiente |
+| 7 | Dashboard | `group-5-dashboard.md` | Dashboard, Detalle asignación | ⬜ pendiente |
+
+### Bloque C · Producto completo (las 8 pantallas restantes + push)
+
+| # | Grupo | Archivo | Pantallas | Estado |
+|---|---|---|---|---|
+| 8 | Recuperar contraseña | `group-6-reset-password.md` | Recuperar | ⬜ pendiente |
+| 9 | Vistas ampliadas | `group-7-detailed-views.md` | Detalle cliente, Todos vencimientos | ⬜ pendiente |
+| 10 | Mover integrante | `group-8-move-member.md` | Mover | ⬜ pendiente |
+| 11 | Ajustes | `group-9-settings.md` | Ajustes, Preferencias notif., Mi cuenta | ⬜ pendiente |
+| 12 | Catálogo avanzado | `group-10-custom-services.md` | Catálogo con propios | ⬜ pendiente |
+| 13 | Push y recordatorios | `group-11-push-reminders.md` | (fase técnica, sin pantalla nueva) | ⬜ pendiente |
 
 **Leyenda:** ⬜ pendiente · 🟡 en curso · ✅ hecho · ⚠️ bloqueada
 
+**Total:** 19 pantallas + motor de recordatorios push (13 fases de construcción).
+
 ---
 
-## Fuera de este plan (fases futuras, no planificar aún)
+## Fuera de este plan (no planificar aún)
 
-Cuando el MVP compile, funcione y lo hayas usado en tu operación real 1-2 semanas,
-volvemos aquí y desglosamos estas en archivos propios con base en la experiencia real.
+Estos bloques son **necesarios para publicar** pero no forman parte del producto en sí.
+Se planifican cuando el producto esté funcional de punta a punta.
 
-**Fase 2 de producto** (comodidad): Recuperar contraseña, Todos los vencimientos con filtros,
-Mover integrante, Detalle de cliente, Ajustes básicos.
+**Hardening previo a publicar en tiendas:** flavors por ambiente (dev/staging/prod),
+R8/minify activo, linters (detekt/ktlint), CI/CD (GitHub Actions con builds automáticos
+y firma), revisión de secrets, HTTPS estricto, política de privacidad y términos.
 
-**Fase 3 de producto** (pulido + push): Catálogo de servicios (agregar propios), Preferencias
-de notificación, Mi cuenta / cambiar contraseña, Push/recordatorios (Edge Function + FCM).
-
-**Hardening previo a publicar en tiendas**: flavors por ambiente, R8/minify, linters
-(detekt/ktlint), CI/CD (GitHub Actions), revisión de secrets, HTTPS estricto.
-
-**Activación iOS**: probar el target ya configurado desde Fase 1, resolver Keychain,
-APNs, engine Darwin, shell del `iosApp`.
+**Activación iOS:** el target ya está estructuralmente listo desde Fase 1 y el push
+tiene TODOs de APNs en el Grupo 11. Aquí se resuelve: probar compilación iOS,
+Keychain para sesión, APNs completo, engine Darwin, shell del `iosApp`, publicación
+en App Store.
 
 ---
 
@@ -64,3 +81,21 @@ APNs, engine Darwin, shell del `iosApp`.
 - **Diseño con components del design system**, no reproducciones independientes.
 - **Reconciliación diseño ↔ design system**: si algo difiere, gana el design system y se avisa.
 - **Todas las escrituras a Supabase respetan RLS** vía sesión autenticada (nunca `service_role`).
+- **Actualización del estado** en el archivo de cada fase y en este INDEX al terminar.
+
+---
+
+## Recomendación de orden y ritmo
+
+El **Bloque B (MVP)** te da una app usable en tu operación real. Es recomendable, aunque
+no obligatorio, usarla 1-2 semanas antes de arrancar el Bloque C, para que tu experiencia
+real informe las prioridades del bloque final. Si tu ritmo es bueno y no quieres cortar,
+puedes seguir directo al Bloque C.
+
+El **Grupo 11 (Push)** es la fase más independiente técnicamente pero depende del
+Grupo 9 (Preferencias de notificación). El orden dentro del Bloque C se puede reordenar
+según tus prioridades reales, con estas dependencias mínimas:
+- Grupo 8 (Mover) depende del Grupo 5.
+- Grupo 9 (Ajustes) es requisito para el Grupo 11.
+- Grupo 10 (Catálogo avanzado) depende del Grupo 3.
+- Grupo 6, 7 son autocontenidos.

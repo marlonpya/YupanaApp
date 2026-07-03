@@ -16,6 +16,9 @@ kotlin {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
+        // Workaround: CMP-9547 (composeResources no se empaqueta en el APK con AGP 9 +
+        // com.android.kotlin.multiplatform.library). https://youtrack.jetbrains.com/issue/CMP-9547
+        experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
 
     listOf(

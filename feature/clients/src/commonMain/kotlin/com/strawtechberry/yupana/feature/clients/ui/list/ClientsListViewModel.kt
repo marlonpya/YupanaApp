@@ -23,7 +23,7 @@ class ClientsListViewModel(
             }
             ClientsListIntent.Retry -> runQuery(currentState.query)
             ClientsListIntent.CreateClicked -> sendEvent(ClientsListEvent.NavigateToCreate)
-            is ClientsListIntent.ClientClicked -> sendEvent(ClientsListEvent.NavigateToEdit(intent.id))
+            is ClientsListIntent.ClientClicked -> sendEvent(ClientsListEvent.NavigateToDetail(intent.id))
         }
     }
 
