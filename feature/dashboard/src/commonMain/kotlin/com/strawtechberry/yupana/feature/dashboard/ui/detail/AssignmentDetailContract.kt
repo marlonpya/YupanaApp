@@ -33,6 +33,7 @@ sealed interface AssignmentDetailIntent : UiIntent {
     data object LiberateClicked : AssignmentDetailIntent
     data object DismissLiberateConfirm : AssignmentDetailIntent
     data object ConfirmLiberate : AssignmentDetailIntent
+    data object MoveClicked : AssignmentDetailIntent
 }
 
 /** One-time effects of the assignment detail screen. */
@@ -41,4 +42,6 @@ sealed interface AssignmentDetailEvent : UiEvent {
 
     /** Renew/edit/liberate succeeded — pop back to the Dashboard, which reloads on re-entry. */
     data object ActionCompleted : AssignmentDetailEvent
+
+    data class NavigateToMove(val assignmentId: String) : AssignmentDetailEvent
 }

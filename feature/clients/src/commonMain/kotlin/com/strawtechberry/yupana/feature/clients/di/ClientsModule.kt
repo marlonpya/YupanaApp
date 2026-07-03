@@ -3,10 +3,12 @@ package com.strawtechberry.yupana.feature.clients.di
 import com.strawtechberry.yupana.feature.clients.data.DefaultClientRepository
 import com.strawtechberry.yupana.feature.clients.domain.ClientRepository
 import com.strawtechberry.yupana.feature.clients.domain.usecase.CreateClientUseCase
+import com.strawtechberry.yupana.feature.clients.domain.usecase.GetClientAssignmentsUseCase
 import com.strawtechberry.yupana.feature.clients.domain.usecase.GetClientUseCase
 import com.strawtechberry.yupana.feature.clients.domain.usecase.GetClientsUseCase
 import com.strawtechberry.yupana.feature.clients.domain.usecase.SearchClientsUseCase
 import com.strawtechberry.yupana.feature.clients.domain.usecase.UpdateClientUseCase
+import com.strawtechberry.yupana.feature.clients.ui.detail.ClientDetailViewModel
 import com.strawtechberry.yupana.feature.clients.ui.form.ClientFormViewModel
 import com.strawtechberry.yupana.feature.clients.ui.list.ClientsListViewModel
 import org.koin.core.module.dsl.factoryOf
@@ -26,7 +28,9 @@ val clientsModule = module {
     factoryOf(::GetClientUseCase)
     factoryOf(::CreateClientUseCase)
     factoryOf(::UpdateClientUseCase)
+    factoryOf(::GetClientAssignmentsUseCase)
 
     viewModelOf(::ClientsListViewModel)
     viewModel { (clientId: String?) -> ClientFormViewModel(clientId, get(), get(), get()) }
+    viewModel { (clientId: String) -> ClientDetailViewModel(clientId, get(), get()) }
 }

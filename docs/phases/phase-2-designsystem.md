@@ -9,10 +9,12 @@ base visual consistente.
 
 ## Estado
 
-- Estado: ⬜ pendiente
-- Iniciada: —
-- Terminada: —
-- Notas de ejecución: —
+- Estado: ✅ hecho
+- Iniciada: 2026-06-30
+- Terminada: 2026-06-30
+- Notas de ejecución: commits `267b0f7`…`7e09b41`. Módulo `:core:designsystem` (KMP
+  library) con tokens, `YupanaTheme`, componentes base, estados (empty/loading/error)
+  y `DesignSystemShowcase`. Compose Resources configurado (`b63aef1`).
 
 ## Criterio de "hecho"
 

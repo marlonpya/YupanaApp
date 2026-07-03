@@ -3,8 +3,10 @@ package com.strawtechberry.yupana.feature.assignment.data
 import com.strawtechberry.yupana.feature.assignment.domain.AssignmentRepository
 import com.strawtechberry.yupana.feature.assignment.domain.model.Assignment
 import com.strawtechberry.yupana.feature.assignment.domain.model.AssignmentException
+import com.strawtechberry.yupana.feature.assignment.domain.model.AssignmentMoveContext
 import com.strawtechberry.yupana.feature.assignment.domain.model.UpcomingExpiration
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.postgrest.query.Order
 import kotlinx.coroutines.CancellationException
 
@@ -71,6 +73,24 @@ class DefaultAssignmentRepository(private val postgrest: Postgrest) : Assignment
         execute {
             postgrest.from("assignment").update(
                 AssignmentStatusDto(status = "cancelled"),
+            ) { filter { eq("id", assignmentId) } }
+            Unit
+        }
+
+    override suspend fun getAssignmentMoveContext(assignmentId: String): Result<AssignmentMoveContext> =
+        execute {
+            postgrest.from("assignment")
+                .select(Columns.raw("profile_id, profile(account_id, account(service_id))")) {
+                    filter { eq("id", assignmentId) }
+                }
+                .decodeSingle<AssignmentMoveContextDto>()
+                .toDomain()
+        }
+
+    override suspend fun moveAssignment(assignmentId: String, newProfileId: String): Result<Unit> =
+        execute {
+            postgrest.from("assignment").update(
+                AssignmentMoveDto(profileId = newProfileId),
             ) { filter { eq("id", assignmentId) } }
             Unit
         }

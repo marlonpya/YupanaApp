@@ -9,10 +9,15 @@ con sus acciones.
 
 ## Estado
 
-- Estado: ⬜ pendiente
-- Iniciada: —
+- Estado: 🟡 en curso
+- Iniciada: 2026-07-01
 - Terminada: —
-- Notas de ejecución: —
+- Notas de ejecución: commits `731c6eb`…`2ecd63d` en la rama `feature/dashboard`
+  (domain+usecases, repositorio sobre la vista `upcoming_expirations`, UI+MVI del
+  Dashboard, UI+MVI+acciones del detalle de asignación). Código de las 2 pantallas
+  implementado, pero **la rama aún no está mergeada a `develop`** y no hay confirmación
+  de prueba end-to-end contra Supabase real (renovar/editar/liberar). Pendiente: merge
+  + validación manual antes de marcar ✅ hecho.
 
 ## Criterio de "hecho"
 

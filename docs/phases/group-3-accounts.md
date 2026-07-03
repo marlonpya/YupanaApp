@@ -8,10 +8,13 @@ admin registra sus cuentas de streaming y navega su catálogo.
 
 ## Estado
 
-- Estado: ⬜ pendiente
-- Iniciada: —
-- Terminada: —
-- Notas de ejecución: —
+- Estado: ✅ hecho
+- Iniciada: 2026-07-01
+- Terminada: 2026-07-01
+- Notas de ejecución: commits `cf7e70f`…`9e2a266`. Módulo `:feature:accounts` con
+  catálogo de servicios, crear/editar cuenta, mis cuentas agrupado por servicio
+  (expandir/colapsar) y detalle de cuenta con perfiles libres/ocupados. Wiring en
+  bottom nav/NavHost.
 
 ## Criterio de "hecho"
 

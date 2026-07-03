@@ -4,12 +4,15 @@ import com.strawtechberry.yupana.feature.assignment.data.DefaultAssignmentReposi
 import com.strawtechberry.yupana.feature.assignment.domain.AssignmentRepository
 import com.strawtechberry.yupana.feature.assignment.domain.usecase.AssignProfileToClientUseCase
 import com.strawtechberry.yupana.feature.assignment.domain.usecase.EditAssignmentUseCase
+import com.strawtechberry.yupana.feature.assignment.domain.usecase.GetAssignmentMoveContextUseCase
 import com.strawtechberry.yupana.feature.assignment.domain.usecase.GetAvailableProfilesUseCase
 import com.strawtechberry.yupana.feature.assignment.domain.usecase.GetUpcomingExpirationUseCase
 import com.strawtechberry.yupana.feature.assignment.domain.usecase.GetUpcomingExpirationsUseCase
 import com.strawtechberry.yupana.feature.assignment.domain.usecase.LiberateAssignmentUseCase
+import com.strawtechberry.yupana.feature.assignment.domain.usecase.MoveAssignmentUseCase
 import com.strawtechberry.yupana.feature.assignment.domain.usecase.RenewAssignmentUseCase
 import com.strawtechberry.yupana.feature.assignment.ui.assign.AssignViewModel
+import com.strawtechberry.yupana.feature.assignment.ui.move.MoveMemberViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -29,8 +32,13 @@ val assignmentModule = module {
     factoryOf(::RenewAssignmentUseCase)
     factoryOf(::EditAssignmentUseCase)
     factoryOf(::LiberateAssignmentUseCase)
+    factoryOf(::GetAssignmentMoveContextUseCase)
+    factoryOf(::MoveAssignmentUseCase)
 
     viewModel { (accountId: String?, profileId: String?) ->
         AssignViewModel(accountId, profileId, get(), get(), get(), get(), get())
+    }
+    viewModel { (assignmentId: String) ->
+        MoveMemberViewModel(assignmentId, get(), get(), get(), get(), get())
     }
 }

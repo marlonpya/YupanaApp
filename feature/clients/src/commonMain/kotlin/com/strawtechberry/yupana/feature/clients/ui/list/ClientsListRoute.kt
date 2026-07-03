@@ -15,7 +15,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ClientsListRoute(
     onCreateClient: () -> Unit,
-    onEditClient: (String) -> Unit,
+    onOpenClientDetail: (String) -> Unit,
     viewModel: ClientsListViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -26,7 +26,7 @@ fun ClientsListRoute(
         viewModel.events.collect { event ->
             when (event) {
                 ClientsListEvent.NavigateToCreate -> onCreateClient()
-                is ClientsListEvent.NavigateToEdit -> onEditClient(event.id)
+                is ClientsListEvent.NavigateToDetail -> onOpenClientDetail(event.id)
             }
         }
     }

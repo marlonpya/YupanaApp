@@ -34,12 +34,13 @@ import org.koin.compose.koinInject
 fun MainScaffold(
     onCerrarSesion: () -> Unit,
     onCreateClient: () -> Unit,
-    onEditClient: (String) -> Unit,
+    onOpenClientDetail: (String) -> Unit,
     onCreateAccount: () -> Unit,
     onOpenAccountDetail: (String) -> Unit,
     onOpenServiceCatalog: () -> Unit,
     onCreateAssignment: () -> Unit,
     onOpenAssignmentDetail: (String) -> Unit,
+    onOpenAllExpirations: () -> Unit,
     signOut: SignOutUseCase = koinInject(),
 ) {
     var selectedIndex by remember { mutableStateOf(0) }
@@ -70,6 +71,7 @@ fun MainScaffold(
                 0 -> DashboardRoute(
                     onOpenDetail = onOpenAssignmentDetail,
                     onCreateAssignment = onCreateAssignment,
+                    onOpenAllExpirations = onOpenAllExpirations,
                 )
                 1 -> AccountsListRoute(
                     onCreateAccount = onCreateAccount,
@@ -77,7 +79,7 @@ fun MainScaffold(
                     onOpenServiceCatalog = onOpenServiceCatalog,
                     onCreateAssignment = onCreateAssignment,
                 )
-                2 -> ClientsListRoute(onCreateClient = onCreateClient, onEditClient = onEditClient)
+                2 -> ClientsListRoute(onCreateClient = onCreateClient, onOpenClientDetail = onOpenClientDetail)
                 else -> SettingsPlaceholderScreen(onOpenServiceCatalog = onOpenServiceCatalog, onCerrarSesion = handleSignOut)
             }
         }

@@ -24,5 +24,5 @@ sealed interface ClientsListIntent : UiIntent {
 /** One-time effects of the clients list. */
 sealed interface ClientsListEvent : UiEvent {
     data object NavigateToCreate : ClientsListEvent
-    data class NavigateToEdit(val id: String) : ClientsListEvent
+    data class NavigateToDetail(val id: String) : ClientsListEvent
 }

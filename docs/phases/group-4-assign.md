@@ -8,10 +8,13 @@ definiendo precio y vencimiento. Sola pantalla, dos puntos de entrada.
 
 ## Estado
 
-- Estado: ⬜ pendiente
-- Iniciada: —
-- Terminada: —
-- Notas de ejecución: —
+- Estado: ✅ hecho
+- Iniciada: 2026-07-01
+- Terminada: 2026-07-01
+- Notas de ejecución: commits `a8f69a5`…`f7f9f09`. Decisión de módulo: **`:feature:assignment`
+  separado** (no dentro de accounts) — ver `settings.gradle.kts`. Incluye domain/usecase,
+  repositorio Supabase, UI+MVI, y los dos puntos de entrada (desde detalle de cuenta y
+  desde cero).
 
 ## Criterio de "hecho"
 

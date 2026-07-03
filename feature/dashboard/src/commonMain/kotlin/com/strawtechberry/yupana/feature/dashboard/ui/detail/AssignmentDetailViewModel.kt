@@ -36,6 +36,7 @@ class AssignmentDetailViewModel(
             AssignmentDetailIntent.LiberateClicked -> setState { copy(showLiberateConfirm = true) }
             AssignmentDetailIntent.DismissLiberateConfirm -> setState { copy(showLiberateConfirm = false) }
             AssignmentDetailIntent.ConfirmLiberate -> confirmLiberate()
+            AssignmentDetailIntent.MoveClicked -> sendEvent(AssignmentDetailEvent.NavigateToMove(assignmentId))
         }
     }
 

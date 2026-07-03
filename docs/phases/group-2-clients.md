@@ -8,10 +8,12 @@ cruzadas. Establece el patrón de features que se repetirá en los grupos siguie
 
 ## Estado
 
-- Estado: ⬜ pendiente
-- Iniciada: —
-- Terminada: —
-- Notas de ejecución: —
+- Estado: ✅ hecho
+- Iniciada: 2026-07-01
+- Terminada: 2026-07-01
+- Notas de ejecución: commits `0d62f52`…`189ee5a`. Módulo `:feature:clients` (domain,
+  repositorio Supabase/postgrest-kt, lista con búsqueda, formulario crear/editar).
+  Bottom nav real de 4 pestañas (Inicio/Cuentas/Clientes/Ajustes) creado en este grupo.
 
 ## Criterio de "hecho"
 

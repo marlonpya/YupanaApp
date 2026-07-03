@@ -41,6 +41,12 @@ class DefaultAuthRepository(private val auth: Auth) : AuthRepository {
     override suspend fun currentSession(): AuthSession? =
         auth.currentSessionOrNull()?.toAuthSession()
 
+    override suspend fun resetPassword(email: String): Result<Unit> =
+        execute(AuthOperation.ResetPassword) {
+            auth.resetPasswordForEmail(email)
+            Unit
+        }
+
     override fun observeSessionState(): Flow<SessionState> =
         auth.sessionStatus.map { status ->
             when (status) {
